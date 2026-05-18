@@ -9,13 +9,13 @@ const Slide: SlideComponent = ({ step }) => (
     index={4}
     total={5}
     brand="Apple"
-    brandColor="#d4d4d8"
+    brandColor="#1d1d1f"
     tagline="결제 인프라 개방 · 간접 진입"
     Logo={AppleLogo}
     headline={
       <>
         2024년 iOS 18.1부터 NFC가 개방되면서, 개발자들이{" "}
-        <Underline when={step >= 1} color="#ffffff" delay={0.15}>
+        <Underline when={step >= 1} color="var(--color-accent)" delay={0.15}>
           Apple Pay 위에 스테이블코인 결제
         </Underline>
         를 얹을 수 있게 됐다.

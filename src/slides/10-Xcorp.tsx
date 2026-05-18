@@ -9,7 +9,7 @@ const Slide: SlideComponent = ({ step }) => (
     index={1}
     total={5}
     brand="X.corp"
-    brandColor="#ffffff"
+    brandColor="#1a1a2a"
     tagline="EVERYTHING APP · SNS + 결제 + 크립토"
     Logo={XLogo}
     headline={
