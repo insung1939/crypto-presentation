@@ -70,8 +70,9 @@ const Slide: SlideComponent = ({ step }) => {
       </Reveal>
 
       <Reveal delay={1.4}>
-        <p className="mt-7 text-caption italic text-fg-muted">
-          "저도 바이낸스에서 BTC/USDT로 비트코인을 구매합니다."
+        <p className="mt-6 text-caption text-fg-muted text-pretty">
+          향후에는 <span className="text-fg">비트코인을 담보로 스테이블코인을 대출</span>받거나,
+          BTC 보유자가 스테이블코인을 통해 유동성을 확보하는 방식으로도 연결될 수 있다.
         </p>
       </Reveal>
     </SlideShell>

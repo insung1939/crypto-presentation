@@ -4,10 +4,11 @@ import { LucideIcon } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 
-type Pillar = {
+export type Pillar = {
   Icon: LucideIcon;
   label: string;
-  detail: string;
+  detail: ReactNode;
+  status?: "live" | "wip" | "planned";
 };
 
 type Props = {
@@ -20,6 +21,12 @@ type Props = {
   headline: ReactNode;
   body: ReactNode;
   pillars?: Pillar[];
+};
+
+const statusLabel: Record<NonNullable<Pillar["status"]>, { label: string; color: string }> = {
+  live: { label: "상용화", color: "var(--color-stable)" },
+  wip: { label: "진행 중", color: "var(--color-accent)" },
+  planned: { label: "논의 / 계획", color: "var(--color-fg-dim)" },
 };
 
 export function CompanyShell({
@@ -53,7 +60,7 @@ export function CompanyShell({
       {/* Ambient brand glow */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -right-[10%] top-[-15%] h-[55vh] w-[55vh] rounded-full blur-3xl"
+        className="pointer-events-none absolute right-[-10%] top-[-15%] h-[55vh] w-[55vh] rounded-full blur-3xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.22 }}
         transition={{ duration: 1.2 }}
@@ -61,53 +68,67 @@ export function CompanyShell({
       />
 
       <Reveal>
-        <div className="inline-flex items-center gap-3 rounded-full border border-border bg-white/[0.04] px-4 py-1.5">
+        <div className="inline-flex items-center gap-3 rounded-full border border-border bg-white/4 px-4 py-1.5">
           <span
             className="inline-block h-2 w-2 rounded-full"
             style={{ background: brandColor }}
           />
-          <span
-            className="text-eyebrow"
-            style={{ color: brandColor }}
-          >
+          <span className="text-eyebrow" style={{ color: brandColor }}>
             {tagline}
           </span>
         </div>
       </Reveal>
 
       <Reveal delay={0.25} duration={0.85}>
-        <div className="mt-8 text-h2 leading-snug text-pretty">{headline}</div>
+        <div className="mt-7 text-h2 leading-snug text-pretty">{headline}</div>
       </Reveal>
 
       <Reveal delay={0.5} duration={0.8}>
-        <div className="mt-8 max-w-[68ch] text-lead leading-relaxed text-fg-muted text-pretty">
+        <div className="mt-7 max-w-[72ch] text-lead leading-relaxed text-fg-muted text-pretty">
           {body}
         </div>
       </Reveal>
 
       {pillars && pillars.length > 0 && (
-        <div className="mt-10 grid grid-cols-3 gap-4">
-          {pillars.map((p, i) => (
-            <Reveal key={p.label} delay={0.75 + i * 0.1}>
-              <div className="rounded-2xl border border-border bg-white/[0.025] p-5">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="flex h-9 w-9 items-center justify-center rounded-lg"
-                    style={{
-                      background: `color-mix(in srgb, ${brandColor} 18%, transparent)`,
-                      color: brandColor,
-                    }}
-                  >
-                    <p.Icon size={20} strokeWidth={1.7} />
+        <div className="mt-9 grid grid-cols-3 gap-4">
+          {pillars.map((p, i) => {
+            const s = p.status ? statusLabel[p.status] : null;
+            return (
+              <Reveal key={p.label} delay={0.75 + i * 0.1}>
+                <div className="h-full rounded-2xl border border-border bg-white/2.5 p-5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-9 w-9 items-center justify-center rounded-lg"
+                        style={{
+                          background: `color-mix(in srgb, ${brandColor} 18%, transparent)`,
+                          color: brandColor,
+                        }}
+                      >
+                        <p.Icon size={20} strokeWidth={1.7} />
+                      </div>
+                      <span className="text-caption font-semibold">{p.label}</span>
+                    </div>
+                    {s && (
+                      <span
+                        className="shrink-0 rounded-full border px-2 py-0.5 font-mono text-[0.65rem] tracking-wider uppercase"
+                        style={{
+                          borderColor: `color-mix(in srgb, ${s.color} 40%, transparent)`,
+                          background: `color-mix(in srgb, ${s.color} 12%, transparent)`,
+                          color: s.color,
+                        }}
+                      >
+                        {s.label}
+                      </span>
+                    )}
                   </div>
-                  <span className="text-caption font-semibold">{p.label}</span>
+                  <div className="mt-3 text-caption text-fg-dim leading-snug">
+                    {p.detail}
+                  </div>
                 </div>
-                <div className="mt-3 text-caption text-fg-dim leading-snug">
-                  {p.detail}
-                </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       )}
     </SlideShell>

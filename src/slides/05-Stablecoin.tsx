@@ -38,9 +38,10 @@ const Slide: SlideComponent = ({ step }) => {
   return (
     <SlideShell section="01 · 정의" title="스테이블코인 — 디지털 달러" accent="stable">
       <Reveal>
-        <p className="max-w-[68ch] text-lead text-fg-muted text-pretty">
-          가격이 항상 1달러로 유지되도록 설계된 가상자산. 발행사가{" "}
-          <span className="text-fg">1코인당 실제 달러를 1:1로 보유</span>한다.
+        <p className="max-w-[72ch] text-lead text-fg-muted text-pretty">
+          1달러로 가격을 고정한 가상자산. 발행사가{" "}
+          <span className="text-fg">1코인당 실제 달러를 1:1로 보유</span>하여,
+          <span className="text-fg"> 법정화폐와 가상자산 생태계를 연결하는 매개체</span> 역할을 한다.
         </p>
       </Reveal>
 

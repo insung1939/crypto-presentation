@@ -66,11 +66,11 @@ const Slide: SlideComponent = ({ step }) => {
 
       <Reveal delay={0.85} duration={0.8}>
         <p className="mt-12 text-h3 leading-snug text-pretty">
-          결제수단보다는{" "}
+          가격 변동성이 크기 때문에 일상 결제보다는{" "}
           <Underline when={step >= 1} color="var(--color-btc)" delay={0.25}>
-            가치저장수단 · 투자자산
+            장기 보유 · 투자 · 담보자산
           </Underline>
-          으로 인식되며,{" "}
+          으로 활용되며,{" "}
           <span className="font-semibold text-btc">디지털 금</span>이라 불린다.
         </p>
       </Reveal>
