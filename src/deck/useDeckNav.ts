@@ -88,6 +88,14 @@ export function useDeckNav({ total, stepsFor }: Args) {
         return;
       }
 
+      // Explicit ESC exit (belt-and-suspenders for browsers
+      // that don't auto-exit, or when focus is on a child element)
+      if (e.key === "Escape" && document.fullscreenElement) {
+        e.preventDefault();
+        document.exitFullscreen().catch(() => {});
+        return;
+      }
+
       switch (e.key) {
         case "ArrowRight":
         case "ArrowDown":
