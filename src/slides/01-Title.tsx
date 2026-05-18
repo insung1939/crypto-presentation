@@ -73,7 +73,7 @@ const Slide: SlideComponent = ({ step }) => {
       <div className="relative z-10 max-w-[64rem] text-center">
         <Reveal>
           <div className="text-eyebrow text-fg-dim">
-            KAIST DFMBA · 재무회계 기말 발표
+            KAIST DFMBA · 재무회계 기말 발표 · 9조
           </div>
         </Reveal>
 

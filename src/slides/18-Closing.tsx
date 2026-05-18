@@ -29,7 +29,7 @@ const Slide: SlideComponent = () => (
         <div className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-surface-2 px-5 py-2">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           <span className="text-caption text-fg-muted">
-            KAIST DFMBA · 재무회계 · 가상자산 팀
+            KAIST DFMBA · 재무회계 · 9조
           </span>
         </div>
       </Reveal>

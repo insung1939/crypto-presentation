@@ -21,6 +21,37 @@ export function useVote() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Reconcile with server on mount: if the server has no record of our
+  // client_id (admin wiped the votes table), clear local state so the
+  // user can vote again. Network errors leave local state untouched.
+  useEffect(() => {
+    if (!choice) return;
+    const supabase = getSupabase();
+    if (!supabase) return;
+    const clientId = localStorage.getItem(CLIENT_KEY);
+    if (!clientId) return;
+
+    let cancelled = false;
+    (async () => {
+      const { data, error: queryError } = await supabase
+        .from("votes")
+        .select("choice")
+        .eq("client_id", clientId)
+        .maybeSingle();
+      if (cancelled) return;
+      if (queryError) return; // offline / transient — keep local state
+      if (data === null) {
+        localStorage.removeItem(CHOICE_KEY);
+        setChoice(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const submit = async (next: CompanyKey) => {
     setError(null);
     if (choice) return;
@@ -51,11 +82,6 @@ export function useVote() {
     localStorage.setItem(CHOICE_KEY, next);
     setChoice(next);
   };
-
-  useEffect(() => {
-    const stored = localStorage.getItem(CHOICE_KEY);
-    if (stored && stored !== choice) setChoice(stored as CompanyKey);
-  }, [choice]);
 
   return { choice, submitting, error, submit };
 }
