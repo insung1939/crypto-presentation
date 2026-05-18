@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 import { useVote } from "./useVote";
 import { useVoteCounts } from "./useVoteCounts";
 import { companies, companyMap } from "./companies";
+import { companyLogo } from "@/visuals/Logos";
 
 export function VotePage() {
   const { choice, submit, submitting, error } = useVote();
@@ -10,16 +12,14 @@ export function VotePage() {
   const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="flex min-h-screen flex-col items-stretch bg-[var(--color-bg)] px-5 py-6 text-white">
+    <div className="flex min-h-screen flex-col items-stretch bg-bg px-5 py-6 text-fg">
       <header className="mb-6 text-center">
-        <div className="text-[0.85rem] font-medium tracking-[0.25em] text-[var(--color-fg-muted)] uppercase">
-          KAIST DFMBA · 재무회계
-        </div>
-        <h1 className="mt-2 text-balance text-[1.7rem] font-bold leading-tight">
+        <div className="text-eyebrow text-fg-dim">KAIST DFMBA · 재무회계</div>
+        <h1 className="mt-3 text-balance text-[1.8rem] font-bold leading-tight">
           어느 빅테크에 투자하시겠습니까?
         </h1>
-        <p className="mt-2 text-[0.95rem] text-[var(--color-fg-muted)]">
-          5개 중 한 곳에만 투표해주세요 · 한 번만 가능합니다
+        <p className="mt-2 text-caption text-fg-dim">
+          5개 중 한 곳에만 투표해주세요 · 한 번만 가능
         </p>
       </header>
 
@@ -30,43 +30,45 @@ export function VotePage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-1 flex-col gap-3"
           >
-            {companies.map((c, i) => (
-              <motion.button
-                key={c.key}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05 * i }}
-                whileTap={{ scale: 0.97 }}
-                disabled={submitting}
-                onClick={() => submit(c.key)}
-                className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-5 text-left transition active:bg-white/[0.08] disabled:opacity-60"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-[1.4rem] font-bold" style={{ color: c.color }}>
-                      {c.name}
+            {companies.map((c, i) => {
+              const Logo = companyLogo[c.key];
+              return (
+                <motion.button
+                  key={c.key}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }}
+                  whileTap={{ scale: 0.98 }}
+                  disabled={submitting}
+                  onClick={() => submit(c.key)}
+                  className="relative w-full overflow-hidden rounded-2xl border border-border bg-white/[0.03] px-5 py-4 text-left transition active:bg-white/[0.08] disabled:opacity-60"
+                >
+                  <div className="flex items-center gap-4">
+                    <Logo size={48} />
+                    <div className="flex-1">
+                      <div className="text-[1.35rem] font-bold" style={{ color: c.color }}>
+                        {c.name}
+                      </div>
+                      <div className="mt-0.5 text-caption text-fg-dim">{c.tagline}</div>
                     </div>
-                    <div className="mt-1 text-[0.95rem] text-[var(--color-fg-muted)]">
-                      {c.tagline}
-                    </div>
+                    <span
+                      className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[1.2rem]"
+                      style={{
+                        background: `color-mix(in srgb, ${c.color} 18%, transparent)`,
+                        color: c.color,
+                      }}
+                    >
+                      →
+                    </span>
                   </div>
-                  <span
-                    className="ml-3 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[1.1rem]"
-                    style={{
-                      background: `color-mix(in srgb, ${c.color} 18%, transparent)`,
-                      color: c.color,
-                    }}
-                  >
-                    →
-                  </span>
-                </div>
-              </motion.button>
-            ))}
+                </motion.button>
+              );
+            })}
             {error && (
-              <div className="mt-3 rounded-xl border border-[var(--color-warn)]/40 bg-[var(--color-warn)]/10 px-4 py-3 text-[0.95rem] text-[var(--color-warn)]">
+              <div className="mt-3 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3 text-caption text-warn">
                 {error}
               </div>
             )}
@@ -74,48 +76,51 @@ export function VotePage() {
         ) : (
           <motion.div
             key="thanks"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.5 }}
             className="flex flex-1 flex-col"
           >
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-6 text-center">
-              <div className="text-[0.85rem] tracking-[0.2em] text-[var(--color-fg-muted)] uppercase">
-                투표 완료
+            <div className="rounded-3xl border border-border bg-white/[0.03] px-5 py-7 text-center">
+              <div className="mb-3 flex justify-center">
+                <CheckCircle2 size={36} strokeWidth={1.6} className="text-stable" />
               </div>
+              <div className="text-eyebrow text-fg-dim">투표 완료</div>
               <div
-                className="mt-2 text-[2rem] font-bold leading-tight"
+                className="mt-3 text-[2.2rem] font-bold leading-tight"
                 style={{ color: companyMap[choice].color }}
               >
                 {companyMap[choice].name}
               </div>
-              <div className="mt-1 text-[0.95rem] text-[var(--color-fg-muted)]">
+              <div className="mt-1 text-caption text-fg-dim">
                 감사합니다 — 발표 화면에서 결과를 확인하세요
               </div>
             </div>
 
-            <div className="mt-6 text-[0.95rem] text-[var(--color-fg-muted)]">
-              현재 집계 · 총 {total}표
+            <div className="mt-6 text-caption text-fg-dim">
+              현재 집계 · 총 <span className="font-mono tabular-nums">{total}</span>표
             </div>
             <div className="mt-3 flex flex-1 flex-col gap-2">
               {companies.map((c) => {
                 const pct = total ? (counts[c.key] / total) * 100 : 0;
                 return (
-                  <div key={c.key} className="rounded-lg bg-white/[0.04] px-3 py-2">
-                    <div className="flex items-center justify-between text-[0.95rem]">
+                  <div key={c.key} className="rounded-xl bg-white/[0.04] px-3 py-2.5">
+                    <div className="flex items-center justify-between text-caption">
                       <span style={{ color: c.color }} className="font-semibold">
                         {c.name}
                       </span>
-                      <span className="tabular-nums text-[var(--color-fg-muted)]">
+                      <span className="font-mono tabular-nums text-fg-dim">
                         {counts[c.key]} · {pct.toFixed(0)}%
                       </span>
                     </div>
-                    <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.08]">
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ background: c.color }}
+                        style={{
+                          background: `linear-gradient(90deg, ${c.color}, color-mix(in srgb, ${c.color} 70%, white))`,
+                        }}
                         animate={{ width: `${pct}%` }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                       />
                     </div>
                   </div>

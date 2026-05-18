@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode;
 };
 
-export function Shake({ when = false, intensity = 6, className, children }: Props) {
+export function Shake({ when = false, intensity = 3, className, children }: Props) {
   const [pulse, setPulse] = useState(0);
 
   useEffect(() => {
@@ -20,10 +20,10 @@ export function Shake({ when = false, intensity = 6, className, children }: Prop
       key={pulse}
       animate={
         when
-          ? { x: [0, -intensity, intensity, -intensity, intensity, 0] }
+          ? { x: [0, -intensity, intensity, -intensity * 0.6, intensity * 0.6, 0] }
           : { x: 0 }
       }
-      transition={{ duration: 0.45, ease: "easeInOut" }}
+      transition={{ duration: 0.55, ease: "easeInOut" }}
       className={`inline-block ${className ?? ""}`}
     >
       {children}

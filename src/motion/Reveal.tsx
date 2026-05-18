@@ -7,6 +7,7 @@ type Props = {
   duration?: number;
   y?: number;
   x?: number;
+  blur?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -14,16 +15,26 @@ type Props = {
 export function Reveal({
   when = true,
   delay = 0,
-  duration = 0.55,
-  y = 16,
+  duration = 0.7,
+  y = 10,
   x = 0,
+  blur = false,
   className,
   children,
 }: Props) {
   return (
     <motion.div
-      initial={{ opacity: 0, y, x }}
-      animate={when ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
+      initial={{
+        opacity: 0,
+        y,
+        x,
+        filter: blur ? "blur(8px)" : "blur(0px)",
+      }}
+      animate={
+        when
+          ? { opacity: 1, y: 0, x: 0, filter: "blur(0px)" }
+          : { opacity: 0, y, x, filter: blur ? "blur(8px)" : "blur(0px)" }
+      }
       transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >

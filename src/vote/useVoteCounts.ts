@@ -3,12 +3,14 @@ import { getSupabase } from "@/lib/supabase";
 import { CompanyKey, companies } from "./companies";
 
 export type Counts = Record<CompanyKey, number>;
+export type FreshSignal = { key: CompanyKey; at: number } | null;
 
 const zeroCounts = (): Counts =>
   companies.reduce((acc, c) => ({ ...acc, [c.key]: 0 }), {} as Counts);
 
 export function useVoteCounts() {
   const [counts, setCounts] = useState<Counts>(zeroCounts);
+  const [fresh, setFresh] = useState<FreshSignal>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ export function useVoteCounts() {
           setCounts((prev) =>
             choice in prev ? { ...prev, [choice]: prev[choice] + 1 } : prev,
           );
+          setFresh({ key: choice, at: Date.now() });
         },
       )
       .subscribe();
@@ -53,5 +56,5 @@ export function useVoteCounts() {
     };
   }, []);
 
-  return { counts, ready };
+  return { counts, fresh, ready };
 }

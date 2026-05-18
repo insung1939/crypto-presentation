@@ -18,6 +18,18 @@ const writeHash = (slide: number, step: number) => {
   }
 };
 
+async function toggleFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch {
+    // user denied or unsupported — silent
+  }
+}
+
 export function useDeckNav({ total, stepsFor }: Args) {
   const initial = parseHash();
   const [slide, setSlide] = useState(Math.min(initial.slide, total - 1));
@@ -68,14 +80,24 @@ export function useDeckNav({ total, stepsFor }: Args) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      // Fullscreen toggle
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        toggleFullscreen();
+        return;
+      }
+
       switch (e.key) {
         case "ArrowRight":
+        case "ArrowDown":
         case "PageDown":
         case " ":
           e.preventDefault();
           next();
           break;
         case "ArrowLeft":
+        case "ArrowUp":
         case "PageUp":
           e.preventDefault();
           prev();

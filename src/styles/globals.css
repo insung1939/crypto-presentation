@@ -1,23 +1,57 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0a0a0f;
-  --color-bg-soft: #12121a;
+  /* Surfaces */
+  --color-bg: #07070b;
+  --color-bg-soft: #0f0f17;
+  --color-bg-elevated: #15151f;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Foreground */
   --color-fg: #ffffff;
-  --color-fg-muted: #a0a0b0;
-  --color-fg-dim: #6b6b80;
+  --color-fg-muted: #c0c0d0;
+  --color-fg-dim: #7a7a8e;
+  --color-fg-faint: #4a4a5a;
 
+  /* Brand accents (high-saturation, presentation-safe) */
   --color-btc: #f7931a;
-  --color-eth: #627eea;
-  --color-stable: #26a17b;
-  --color-accent: #8b5cf6;
-  --color-warn: #ef4444;
+  --color-eth: #7c8df2;
+  --color-stable: #2fd69e;
+  --color-accent: #a78bfa;
+  --color-warn: #f87171;
 
+  /* Brand surface tints (10% / 25%) */
+  --tint-btc: rgba(247, 147, 26, 0.1);
+  --tint-eth: rgba(124, 141, 242, 0.12);
+  --tint-stable: rgba(47, 214, 158, 0.12);
+  --tint-accent: rgba(167, 139, 250, 0.14);
+
+  /* Presentation typography scale */
+  --text-display: clamp(4.5rem, 6.5vw, 6.5rem);
+  --text-h1: clamp(3.2rem, 4.6vw, 4.8rem);
+  --text-h2: clamp(2.2rem, 3vw, 3.2rem);
+  --text-h3: clamp(1.6rem, 2.2vw, 2.2rem);
+  --text-lead: clamp(1.4rem, 1.6vw, 1.85rem);
+  --text-body: clamp(1.2rem, 1.35vw, 1.55rem);
+  --text-caption: clamp(1rem, 1.1vw, 1.2rem);
+  --text-micro: clamp(0.85rem, 0.9vw, 1rem);
+  --text-eyebrow: clamp(0.9rem, 1vw, 1.1rem);
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Font */
   --font-sans:
-    "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-display:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "SF Pro Display", sans-serif;
 }
 
 @layer base {
@@ -28,6 +62,10 @@
     background: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);
+    font-feature-settings:
+      "ss01" on,
+      "ss02" on,
+      "tnum" on;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -39,16 +77,32 @@
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 45%, transparent);
     color: white;
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
+  .text-display { font-size: var(--text-display); line-height: 1.02; letter-spacing: -0.025em; font-weight: 700; }
+  .text-h1      { font-size: var(--text-h1); line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; }
+  .text-h2      { font-size: var(--text-h2); line-height: 1.15; letter-spacing: -0.015em; font-weight: 700; }
+  .text-h3      { font-size: var(--text-h3); line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; }
+  .text-lead    { font-size: var(--text-lead); line-height: 1.45; font-weight: 400; }
+  .text-body    { font-size: var(--text-body); line-height: 1.55; font-weight: 400; }
+  .text-caption { font-size: var(--text-caption); line-height: 1.5; font-weight: 400; }
+  .text-micro   { font-size: var(--text-micro); line-height: 1.5; font-weight: 500; letter-spacing: 0.02em; }
+  .text-eyebrow { font-size: var(--text-eyebrow); line-height: 1.4; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  .grain-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 3px 3px;
+    opacity: 0.4;
   }
 }

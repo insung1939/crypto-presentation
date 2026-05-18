@@ -16,7 +16,7 @@ export function Underline({
   color = "var(--color-accent)",
   thickness = 4,
   delay = 0,
-  duration = 0.6,
+  duration = 0.8,
   className,
   children,
 }: Props) {
@@ -33,6 +33,7 @@ export function Underline({
           height: thickness,
           background: color,
           bottom: -thickness - 2,
+          boxShadow: `0 0 24px ${color}`,
         }}
       />
     </span>
