@@ -16,21 +16,34 @@ const Slide: SlideComponent = () => (
       }}
     />
 
-    <div className="relative z-10 text-center">
+    <div className="relative z-10 flex flex-col items-center text-center">
       <Reveal>
-        <div className="text-eyebrow text-fg-muted">Thank you</div>
+        <div className="text-eyebrow text-fg-dim">9조 · 재무회계</div>
       </Reveal>
+
       <Reveal delay={0.25} duration={0.9}>
-        <h2 className="mt-7 text-display text-balance leading-[1.04]">
-          질문을 받겠습니다.
+        <h2 className="mt-7 text-display text-balance leading-[1.02] text-fg">
+          Thank you
         </h2>
       </Reveal>
-      <Reveal delay={0.6}>
-        <div className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-surface-2 px-5 py-2">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-          <span className="text-caption text-fg-muted">
-            KAIST DFMBA · 재무회계 · 9조
+
+      <Reveal delay={0.55}>
+        <motion.div
+          initial={{ scale: 0.92 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+          className="mt-6 inline-flex items-center gap-3 rounded-full border border-border bg-bg-soft px-7 py-3 shadow-card"
+        >
+          <span className="inline-block h-2 w-2 rounded-full bg-accent" />
+          <span className="font-mono text-[1.5rem] font-bold tracking-[0.18em] text-accent">
+            Q &amp; A
           </span>
+        </motion.div>
+      </Reveal>
+
+      <Reveal delay={0.9}>
+        <div className="mt-10 text-caption text-fg-muted">
+          KAIST DFMBA · 재무회계
         </div>
       </Reveal>
     </div>

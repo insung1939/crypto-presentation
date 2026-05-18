@@ -31,10 +31,7 @@ const Slide: SlideComponent = () => {
                 <div className="mt-6 flex justify-center">
                   <WinnerLogo size={88} />
                 </div>
-                <div
-                  className="mt-5 text-display leading-none"
-                  style={{ color: winner.color }}
-                >
+                <div className="mt-5 text-display leading-none text-fg">
                   {winner.name}
                 </div>
                 <div className="mt-4 text-caption text-fg-dim">
@@ -66,28 +63,27 @@ const Slide: SlideComponent = () => {
         {/* Our team */}
         <Reveal delay={0.15} duration={0.85}>
           <div
-            className="relative overflow-hidden rounded-3xl border p-10 text-center"
+            className="relative overflow-hidden rounded-3xl border-2 bg-bg-soft p-10 text-center shadow-card"
             style={{
-              borderColor: "color-mix(in srgb, white 35%, transparent)",
-              background: "rgba(255,255,255,0.04)",
+              borderColor: "color-mix(in srgb, var(--color-accent) 35%, transparent)",
             }}
           >
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-30 blur-3xl"
-              style={{ background: "#ffffff" }}
+              className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl"
+              style={{ background: "var(--color-accent)" }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.18 }}
+              animate={{ opacity: 0.22 }}
               transition={{ duration: 1.2 }}
             />
-            <div className="text-eyebrow text-fg-dim">우리 팀의 선택</div>
+            <div className="text-eyebrow text-accent">우리 팀의 선택</div>
             <div className="mt-6 flex justify-center">
               <OurLogo size={88} />
             </div>
-            <div className="mt-5 text-display leading-none">
+            <div className="mt-5 text-display leading-none text-fg">
               {companyMap[OUR_PICK].name}
             </div>
-            <div className="mt-4 text-caption text-fg-dim">슈퍼앱 비전 · 결제 DNA</div>
+            <div className="mt-4 text-caption text-fg-muted">슈퍼앱 비전 · 결제 DNA</div>
           </div>
         </Reveal>
       </div>

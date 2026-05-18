@@ -79,19 +79,14 @@ function VoteBar({
 
         <div className="flex flex-1 items-baseline justify-between">
           <div className="flex items-baseline gap-3">
-            <span
-              className="text-[1.65rem] font-bold leading-none"
-              style={{ color: c.color }}
-            >
+            <span className="text-[1.65rem] font-bold leading-none text-fg">
               {c.name}
             </span>
-            <span className="text-caption text-[var(--color-fg-dim)]">
-              {c.tagline}
-            </span>
+            <span className="text-caption text-fg-dim">{c.tagline}</span>
           </div>
-          <div className="text-right font-mono tabular-nums">
+          <div className="text-right font-mono tabular-nums text-fg">
             <span className="text-[1.9rem] font-bold leading-none">{count}</span>
-            <span className="ml-2 text-caption text-[var(--color-fg-dim)]">
+            <span className="ml-2 text-caption text-fg-dim">
               {sharePct.toFixed(0)}%
             </span>
           </div>
@@ -134,7 +129,7 @@ const Slide: SlideComponent = () => {
   return (
     <SlideShell section="04 · 청중의 선택" title="여러분이라면 어디에 투자하시겠습니까?" accent="accent">
       {!isSupabaseConfigured() && (
-        <div className="mb-4 rounded-xl border border-[var(--color-warn)]/40 bg-[var(--color-warn)]/10 px-4 py-3 text-caption text-[var(--color-warn)]">
+        <div className="mb-4 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3 text-caption text-warn">
           ⚠ Supabase 미설정 — 실시간 집계가 동작하지 않습니다.
         </div>
       )}
@@ -147,17 +142,17 @@ const Slide: SlideComponent = () => {
               className="rounded-3xl bg-white p-5"
               style={{
                 boxShadow:
-                  "0 30px 80px -20px rgba(167, 139, 250, 0.35), 0 0 0 1px rgba(255,255,255,0.06)",
+                  "0 1px 2px rgba(15,15,30,0.06), 0 30px 80px -20px rgba(109, 59, 212, 0.35)",
               }}
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               <QRCodeSVG value={voteUrl} size={240} level="M" includeMargin={false} />
             </motion.div>
-            <div className="mt-5 text-eyebrow text-[var(--color-accent)]">
+            <div className="mt-5 text-eyebrow text-accent">
               SCAN TO VOTE
             </div>
-            <div className="mt-2 font-mono text-micro text-[var(--color-fg-dim)]">
+            <div className="mt-2 font-mono text-micro text-fg-dim">
               {voteUrl.replace(/^https?:\/\//, "")}
             </div>
           </div>
@@ -167,10 +162,10 @@ const Slide: SlideComponent = () => {
         <Reveal delay={0.15} duration={0.8}>
           <div className="flex flex-col">
             <div className="mb-5 flex items-baseline justify-between">
-              <span className="text-eyebrow text-[var(--color-fg-dim)]">
+              <span className="text-eyebrow text-fg-dim">
                 LIVE
                 <motion.span
-                  className="ml-2 inline-block h-2 w-2 rounded-full bg-[var(--color-stable)]"
+                  className="ml-2 inline-block h-2 w-2 rounded-full bg-stable"
                   animate={{ opacity: [0.4, 1, 0.4] }}
                   transition={{ duration: 1.4, repeat: Infinity }}
                 />
@@ -178,16 +173,14 @@ const Slide: SlideComponent = () => {
               <div className="font-mono tabular-nums">
                 <motion.span
                   key={total}
-                  initial={{ scale: 1.15, color: "#a78bfa" }}
-                  animate={{ scale: 1, color: "#ffffff" }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ scale: 1.15, color: "var(--color-accent)" }}
+                  animate={{ scale: 1, color: "var(--color-fg)" }}
+                  transition={{ duration: 0.6 }}
                   className="text-[2.4rem] font-bold"
                 >
                   {total}
                 </motion.span>
-                <span className="ml-2 text-caption text-[var(--color-fg-dim)]">
-                  표 누적
-                </span>
+                <span className="ml-2 text-caption text-fg-dim">표 누적</span>
               </div>
             </div>
 

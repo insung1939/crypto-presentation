@@ -8,7 +8,7 @@ import { companies, CompanyKey, companyMap } from "./companies";
 import { companyLogo } from "@/visuals/Logos";
 
 /* ────────────────────────────────────────────────
-   Animated counter — number scrubs to its target
+   Animated counter
    ──────────────────────────────────────────────── */
 function AnimatedNumber({ value }: { value: number }) {
   const mv = useMotionValue(value);
@@ -21,7 +21,7 @@ function AnimatedNumber({ value }: { value: number }) {
 }
 
 /* ────────────────────────────────────────────────
-   Fire confetti in the brand color of the choice
+   Confetti burst
    ──────────────────────────────────────────────── */
 function fireBurst(color: string) {
   const defaults = {
@@ -50,26 +50,26 @@ function fireBurst(color: string) {
 }
 
 /* ────────────────────────────────────────────────
-   Animated mesh gradient backdrop
+   Mesh gradient backdrop
    ──────────────────────────────────────────────── */
 function MeshBackdrop() {
   return (
     <div
       aria-hidden
-      className="mesh-drift pointer-events-none fixed inset-0 -z-10"
+      className="pointer-events-none fixed inset-0 -z-10"
       style={{
         background:
-          "radial-gradient(circle at 15% 20%, rgba(217,119,6,0.16), transparent 42%), " +
-          "radial-gradient(circle at 85% 25%, rgba(79,95,211,0.18), transparent 42%), " +
-          "radial-gradient(circle at 75% 85%, rgba(109,59,212,0.16), transparent 42%), " +
-          "radial-gradient(circle at 20% 90%, rgba(15,157,106,0.14), transparent 42%)",
+          "radial-gradient(circle at 15% 20%, rgba(217,119,6,0.12), transparent 42%), " +
+          "radial-gradient(circle at 85% 25%, rgba(79,95,211,0.14), transparent 42%), " +
+          "radial-gradient(circle at 75% 85%, rgba(109,59,212,0.12), transparent 42%), " +
+          "radial-gradient(circle at 20% 90%, rgba(15,157,106,0.1), transparent 42%)",
       }}
     />
   );
 }
 
 /* ────────────────────────────────────────────────
-   Vote pick — one company card
+   Pick card
    ──────────────────────────────────────────────── */
 function PickCard({
   index,
@@ -86,59 +86,23 @@ function PickCard({
   const Logo = companyLogo[k];
   return (
     <motion.button
-      initial={{ opacity: 0, y: 18, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
-        type: "spring",
-        stiffness: 230,
-        damping: 22,
-        delay: 0.18 + index * 0.07,
+        duration: 0.5,
+        delay: 0.15 + index * 0.06,
+        ease: [0.22, 1, 0.36, 1],
       }}
-      whileTap={{ scale: 0.97 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onPick(k)}
       disabled={disabled}
-      className="group relative w-full overflow-hidden rounded-3xl bg-bg-soft text-left shadow-card transition disabled:opacity-60"
-      style={{
-        boxShadow: `0 1px 2px rgba(15,15,30,0.04), 0 12px 32px -12px color-mix(in srgb, ${c.color} 28%, rgba(15,15,30,0.08))`,
-      }}
+      className="relative w-full overflow-hidden rounded-3xl border border-border bg-bg-soft text-left shadow-card transition disabled:opacity-60"
     >
-      {/* Brand-color halo behind the logo */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-6 top-1/2 h-28 w-28 -translate-y-1/2 rounded-full blur-2xl"
-        style={{
-          background: `color-mix(in srgb, ${c.color} 28%, transparent)`,
-          animation: "halo-breathe 4.5s ease-in-out infinite",
-          animationDelay: `${index * 0.4}s`,
-        }}
-      />
-      {/* Gradient border */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-3xl"
-        style={{
-          padding: 1,
-          background: `linear-gradient(135deg, color-mix(in srgb, ${c.color} 32%, transparent), rgba(15,15,30,0.05) 60%)`,
-          WebkitMask:
-            "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
-        }}
-      />
-
       <div className="relative flex items-center gap-4 px-4 py-4 sm:gap-5 sm:px-5 sm:py-5">
-        <motion.div
-          whileHover={{ rotate: -6 }}
-          transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        >
-          <Logo size={52} />
-        </motion.div>
+        <Logo size={52} />
 
         <div className="min-w-0 flex-1">
-          <div
-            className="truncate text-[1.25rem] font-bold leading-tight sm:text-[1.4rem]"
-            style={{ color: c.color }}
-          >
+          <div className="truncate text-[1.25rem] font-bold leading-tight text-fg sm:text-[1.4rem]">
             {c.name}
           </div>
           <div className="mt-0.5 truncate text-[0.88rem] text-fg-muted sm:text-[0.95rem]">
@@ -146,10 +110,8 @@ function PickCard({
           </div>
         </div>
 
-        <motion.span
+        <span
           aria-hidden
-          initial={false}
-          whileTap={{ x: 6 }}
           className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
           style={{
             background: `color-mix(in srgb, ${c.color} 14%, transparent)`,
@@ -157,62 +119,55 @@ function PickCard({
           }}
         >
           <ChevronRight size={22} strokeWidth={2.2} />
-        </motion.span>
+        </span>
       </div>
     </motion.button>
   );
 }
 
 /* ────────────────────────────────────────────────
-   Confirmation card (after vote)
+   Confirmation card
    ──────────────────────────────────────────────── */
 function Confirmation({ choice }: { choice: CompanyKey }) {
   const c = companyMap[choice];
   const Logo = companyLogo[choice];
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95, y: 14 }}
+      initial={{ opacity: 0, scale: 0.96, y: 14 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="relative overflow-hidden rounded-3xl bg-bg-soft px-6 py-7 text-center shadow-card"
+      transition={{ type: "spring", stiffness: 200, damping: 22 }}
+      className="relative overflow-hidden rounded-3xl border border-border bg-bg-soft px-6 py-7 text-center shadow-card"
       style={{
-        boxShadow: `0 1px 2px rgba(15,15,30,0.05), 0 24px 60px -18px color-mix(in srgb, ${c.color} 42%, rgba(15,15,30,0.12))`,
+        boxShadow: `0 1px 2px rgba(15,15,30,0.05), 0 24px 60px -18px color-mix(in srgb, ${c.color} 35%, rgba(15,15,30,0.12))`,
       }}
     >
-      {/* big brand glow */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-0"
         style={{
-          background: `radial-gradient(circle at 50% 30%, color-mix(in srgb, ${c.color} 18%, transparent), transparent 60%)`,
+          background: `radial-gradient(circle at 50% 30%, color-mix(in srgb, ${c.color} 14%, transparent), transparent 60%)`,
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: -6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="relative text-[0.75rem] font-semibold tracking-[0.22em] text-fg-dim uppercase"
-      >
+      <div className="relative text-[0.75rem] font-semibold tracking-[0.22em] text-fg-dim uppercase">
         <Sparkles size={14} className="-mt-0.5 mr-1 inline align-middle" />
         투표 완료
-      </motion.div>
+      </div>
 
       <motion.div
-        initial={{ scale: 0.5, opacity: 0 }}
+        initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 16, delay: 0.1 }}
+        transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
         className="relative mx-auto mt-5 w-fit"
       >
         <Logo size={88} />
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.45 }}
-        className="relative mt-4 text-[2rem] font-bold leading-none sm:text-[2.3rem]"
-        style={{ color: c.color }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="relative mt-4 text-[2rem] font-bold leading-none text-fg sm:text-[2.3rem]"
       >
         {c.name}
       </motion.div>
@@ -246,7 +201,6 @@ export function VotePage() {
   const sorted = [...companies].sort((a, b) => counts[b.key] - counts[a.key]);
   const max = Math.max(1, ...Object.values(counts));
 
-  // Fire confetti when transitioning into the voted state.
   const lastChoice = useRef<CompanyKey | null>(null);
   useEffect(() => {
     if (choice && lastChoice.current !== choice) {
@@ -269,46 +223,33 @@ export function VotePage() {
             paddingTop: "calc(env(safe-area-inset-top, 0) + 1.25rem)",
           }}
         >
-          {/* Header */}
-          <motion.header
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: {},
-              show: { transition: { staggerChildren: 0.08 } },
-            }}
-            className="mb-6 text-center"
-          >
+          <header className="mb-6 text-center">
             <motion.div
-              variants={{
-                hidden: { opacity: 0, y: -6 },
-                show: { opacity: 1, y: 0 },
-              }}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
               className="text-[0.72rem] font-semibold tracking-[0.22em] text-fg-dim uppercase"
             >
               KAIST DFMBA · 재무회계 · 9조
             </motion.div>
             <motion.h1
-              variants={{
-                hidden: { opacity: 0, y: 8 },
-                show: { opacity: 1, y: 0 },
-              }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="mt-3 text-balance text-[1.65rem] font-bold leading-[1.18] sm:text-[2rem]"
             >
               어느 빅테크에<br />투자하시겠습니까?
             </motion.h1>
             <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 6 },
-                show: { opacity: 1, y: 0 },
-              }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.16 }}
               className="mt-2.5 text-[0.92rem] text-fg-muted"
             >
               익명 · 한 번만 가능
             </motion.p>
-          </motion.header>
+          </header>
 
-          {/* Body */}
           <AnimatePresence mode="wait">
             {!choice ? (
               <motion.div
@@ -316,7 +257,7 @@ export function VotePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.35 }}
                 className="flex flex-col gap-3"
               >
                 {companies.map((c, i) => (
@@ -329,22 +270,13 @@ export function VotePage() {
                   />
                 ))}
                 {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-2 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-3 text-[0.9rem] text-warn"
-                  >
+                  <div className="mt-2 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-3 text-[0.9rem] text-warn">
                     {error}
-                  </motion.div>
+                  </div>
                 )}
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                  className="mt-3 text-center text-[0.78rem] text-fg-faint"
-                >
+                <p className="mt-3 text-center text-[0.78rem] text-fg-faint">
                   본인 단말에서 한 번만 가능 · 표는 익명으로 집계됩니다
-                </motion.p>
+                </p>
               </motion.div>
             ) : (
               <motion.div
@@ -356,7 +288,6 @@ export function VotePage() {
               >
                 <Confirmation choice={choice} />
 
-                {/* Live results */}
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -372,7 +303,7 @@ export function VotePage() {
                       />
                       LIVE · 현재 집계
                     </div>
-                    <div className="font-mono tabular-nums">
+                    <div className="font-mono tabular-nums text-fg">
                       <span className="text-[1.4rem] font-bold leading-none">
                         <AnimatedNumber value={total} />
                       </span>
@@ -396,28 +327,21 @@ export function VotePage() {
                           transition={{
                             layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
                           }}
-                          className="rounded-2xl bg-bg-soft px-3.5 py-2.5 shadow-card"
+                          className="rounded-2xl border border-border bg-bg-soft px-3.5 py-2.5 shadow-card"
                           style={{
                             boxShadow: isLeader
-                              ? `0 1px 2px rgba(15,15,30,0.04), 0 12px 28px -10px color-mix(in srgb, ${c.color} 35%, rgba(15,15,30,0.1))`
+                              ? `0 1px 2px rgba(15,15,30,0.04), 0 12px 28px -10px color-mix(in srgb, ${c.color} 30%, rgba(15,15,30,0.1))`
                               : undefined,
                           }}
                         >
                           <div className="flex items-center justify-between text-[0.95rem]">
                             <div className="flex items-center gap-2">
-                              <span
-                                className="font-mono text-[0.78rem] tabular-nums text-fg-faint"
-                              >
+                              <span className="font-mono text-[0.78rem] tabular-nums text-fg-faint">
                                 {String(i + 1).padStart(2, "0")}
                               </span>
-                              <span
-                                className="font-semibold"
-                                style={{ color: c.color }}
-                              >
-                                {c.name}
-                              </span>
+                              <span className="font-semibold text-fg">{c.name}</span>
                             </div>
-                            <span className="font-mono tabular-nums text-fg-muted">
+                            <span className="font-mono tabular-nums text-fg">
                               <AnimatedNumber value={n} />
                               <span className="ml-2 text-fg-dim">
                                 {sharePct.toFixed(0)}%
@@ -428,7 +352,7 @@ export function VotePage() {
                             <motion.div
                               className="h-full rounded-full"
                               style={{
-                                background: `linear-gradient(90deg, ${c.color}, color-mix(in srgb, ${c.color} 60%, white))`,
+                                background: `linear-gradient(90deg, ${c.color}, color-mix(in srgb, ${c.color} 55%, white))`,
                               }}
                               animate={{ width: `${widthPct}%` }}
                               transition={{

@@ -47,8 +47,8 @@ const Slide: SlideComponent = ({ step }) => {
             className="flex items-center gap-4"
           >
             <XLogo size={72} />
-            <span className="text-display leading-none">
-              <Underline when={step >= 1} color="#ffffff" thickness={5} delay={0.4}>
+            <span className="text-display leading-none text-fg">
+              <Underline when={step >= 1} color="var(--color-accent)" thickness={5} delay={0.4}>
                 X.corp
               </Underline>
             </span>

@@ -22,7 +22,7 @@ export function useVoteCounts() {
 
     let cancelled = false;
 
-    (async () => {
+    const refetch = async () => {
       const { data } = await supabase.from("votes").select("choice");
       if (cancelled || !data) return;
       const next = zeroCounts();
@@ -32,7 +32,9 @@ export function useVoteCounts() {
       }
       setCounts(next);
       setReady(true);
-    })();
+    };
+
+    refetch();
 
     const channel = supabase
       .channel("votes-stream")
@@ -46,6 +48,16 @@ export function useVoteCounts() {
             choice in prev ? { ...prev, [choice]: prev[choice] + 1 } : prev,
           );
           setFresh({ key: choice, at: Date.now() });
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "votes" },
+        () => {
+          // Realtime DELETE payloads don't include the old row by default,
+          // so just refetch the full count. Bulk deletes also collapse to
+          // a few events, so this is cheap.
+          refetch();
         },
       )
       .subscribe();
