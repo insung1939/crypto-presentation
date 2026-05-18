@@ -14,12 +14,11 @@ import S11 from "./11-Samsung";
 import S12 from "./12-Apple";
 import S13 from "./13-Meta";
 import S14 from "./14-Vote";
-import S15 from "./15-LiveResults";
-import S16 from "./16-OurChoice";
-import S17 from "./17-Comparison";
-import S18 from "./18-Closing";
+import S15 from "./15-OurChoice";
+import S16 from "./16-Comparison";
+import S17 from "./17-Closing";
 
 export const slides: SlideComponent[] = [
   S01, S02, S03, S04, S05, S06, S07, S08, S09,
-  S10, S11, S12, S13, S14, S15, S16, S17, S18,
+  S10, S11, S12, S13, S14, S15, S16, S17,
 ];
