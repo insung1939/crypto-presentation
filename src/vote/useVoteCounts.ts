@@ -1,0 +1,57 @@
+import { useEffect, useState } from "react";
+import { getSupabase } from "@/lib/supabase";
+import { CompanyKey, companies } from "./companies";
+
+export type Counts = Record<CompanyKey, number>;
+
+const zeroCounts = (): Counts =>
+  companies.reduce((acc, c) => ({ ...acc, [c.key]: 0 }), {} as Counts);
+
+export function useVoteCounts() {
+  const [counts, setCounts] = useState<Counts>(zeroCounts);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) {
+      setReady(true);
+      return;
+    }
+
+    let cancelled = false;
+
+    (async () => {
+      const { data } = await supabase.from("votes").select("choice");
+      if (cancelled || !data) return;
+      const next = zeroCounts();
+      for (const row of data) {
+        const k = row.choice as CompanyKey;
+        if (k in next) next[k] += 1;
+      }
+      setCounts(next);
+      setReady(true);
+    })();
+
+    const channel = supabase
+      .channel("votes-stream")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "votes" },
+        (payload) => {
+          const choice = payload.new?.choice as CompanyKey | undefined;
+          if (!choice) return;
+          setCounts((prev) =>
+            choice in prev ? { ...prev, [choice]: prev[choice] + 1 } : prev,
+          );
+        },
+      )
+      .subscribe();
+
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  return { counts, ready };
+}
