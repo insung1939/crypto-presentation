@@ -68,7 +68,7 @@ export function CompanyShell({
       />
 
       <Reveal>
-        <div className="inline-flex items-center gap-3 rounded-full border border-border bg-white/4 px-4 py-1.5">
+        <div className="inline-flex items-center gap-3 rounded-full border border-border bg-surface-2 px-4 py-1.5">
           <span
             className="inline-block h-2 w-2 rounded-full"
             style={{ background: brandColor }}
@@ -95,7 +95,7 @@ export function CompanyShell({
             const s = p.status ? statusLabel[p.status] : null;
             return (
               <Reveal key={p.label} delay={0.75 + i * 0.1}>
-                <div className="h-full rounded-2xl border border-border bg-white/2.5 p-5">
+                <div className="h-full rounded-2xl border border-border bg-surface-1 p-5">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <div

@@ -43,7 +43,7 @@ const Slide: SlideComponent = ({ step }) => {
                   {row.idx}
                 </span>
 
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[0.04] text-fg-muted">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-fg-muted">
                   <row.Icon size={28} strokeWidth={1.5} />
                 </div>
 

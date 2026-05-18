@@ -63,7 +63,7 @@ const Slide: SlideComponent = ({ step }) => {
             key={r.n}
             whileHover={{ y: -3 }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl border border-border bg-white/[0.025] p-6"
+            className="rounded-2xl border border-border bg-surface-1 p-6"
           >
             <div className="flex items-center gap-4">
               <span className="font-mono text-caption text-fg-faint tabular-nums">

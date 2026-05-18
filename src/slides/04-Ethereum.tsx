@@ -60,7 +60,7 @@ const Slide: SlideComponent = ({ step }) => {
         {dapps.map((d) => (
           <span
             key={d}
-            className="rounded-full border border-border bg-white/[0.04] px-5 py-2 text-h3 font-medium"
+            className="rounded-full border border-border bg-surface-2 px-5 py-2 text-h3 font-medium"
           >
             {d}
           </span>

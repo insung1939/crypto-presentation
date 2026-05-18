@@ -39,7 +39,7 @@ function VoteBar({
     <motion.div
       layout
       transition={{ layout: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
-      className="relative rounded-2xl border bg-white/[0.025] px-5 py-4 backdrop-blur-sm"
+      className="relative rounded-2xl border bg-surface-1 px-5 py-4 backdrop-blur-sm"
       style={{
         borderColor: isLeader
           ? `color-mix(in srgb, ${c.color} 55%, transparent)`
@@ -98,7 +98,7 @@ function VoteBar({
         </div>
       </div>
 
-      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/[0.05]">
+      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-surface-2">
         <motion.div
           className="h-full rounded-full"
           style={{

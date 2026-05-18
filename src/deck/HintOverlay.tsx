@@ -28,16 +28,16 @@ export function HintOverlay() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex items-center gap-5 rounded-full border border-border bg-white/[0.04] px-5 py-2.5 backdrop-blur-md">
+          <div className="flex items-center gap-5 rounded-full border border-border bg-surface-2 px-5 py-2.5 backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <kbd className="rounded-md border border-border bg-white/[0.06] px-2 py-0.5 font-mono text-micro">
+              <kbd className="rounded-md border border-border bg-surface-3 px-2 py-0.5 font-mono text-micro">
                 F
               </kbd>
               <span className="inline-flex items-center gap-1.5 text-micro text-fg-muted">
                 <Maximize2 size={14} /> Fullscreen
               </span>
             </div>
-            <span className="h-3 w-px bg-white/10" />
+            <span className="h-3 w-px bg-fg-faint/40" />
             <div className="flex items-center gap-2">
               <ArrowLeftRight size={14} className="text-fg-dim" />
               <ArrowUpDown size={14} className="text-fg-dim" />

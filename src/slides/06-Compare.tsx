@@ -53,7 +53,7 @@ const Slide: SlideComponent = () => {
             <motion.div
               whileHover={{ y: -5 }}
               transition={{ duration: 0.35 }}
-              className="relative flex h-full flex-col overflow-hidden rounded-3xl border bg-white/[0.02] p-8"
+              className="relative flex h-full flex-col overflow-hidden rounded-3xl border bg-surface-1 p-8"
               style={{
                 borderColor: `color-mix(in srgb, ${r.color} 30%, transparent)`,
               }}

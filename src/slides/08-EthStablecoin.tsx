@@ -32,7 +32,7 @@ const Slide: SlideComponent = () => {
       </Reveal>
 
       <Reveal delay={0.55} duration={0.85}>
-        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-white/[0.02] p-9">
+        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-surface-1 p-9">
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-10">
             {/* Left: Ethereum */}
             <div className="flex flex-col items-center text-center">

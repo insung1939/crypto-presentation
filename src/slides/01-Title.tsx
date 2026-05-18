@@ -16,7 +16,7 @@ const Slide: SlideComponent = ({ step }) => {
         transition={{ duration: 1.6 }}
         style={{
           background:
-            "radial-gradient(circle at 18% 28%, rgba(247,147,26,0.18), transparent 42%), radial-gradient(circle at 82% 72%, rgba(124,141,242,0.18), transparent 44%), radial-gradient(circle at 50% 90%, rgba(47,214,158,0.14), transparent 40%)",
+            "radial-gradient(circle at 18% 28%, rgba(247,147,26,0.22), transparent 45%), radial-gradient(circle at 82% 72%, rgba(99,114,229,0.22), transparent 47%), radial-gradient(circle at 50% 95%, rgba(15,157,106,0.18), transparent 42%)",
         }}
       />
 
@@ -25,7 +25,7 @@ const Slide: SlideComponent = ({ step }) => {
         aria-hidden
         className="pointer-events-none absolute"
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 0.55, y: 0 }}
+        animate={{ opacity: 0.75, y: 0 }}
         transition={{ duration: 1.4, delay: 0.3 }}
         style={{ top: "18%", left: "12%" }}
       >
@@ -41,7 +41,7 @@ const Slide: SlideComponent = ({ step }) => {
         aria-hidden
         className="pointer-events-none absolute"
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 0.55, y: 0 }}
+        animate={{ opacity: 0.75, y: 0 }}
         transition={{ duration: 1.4, delay: 0.5 }}
         style={{ top: "22%", right: "14%" }}
       >
@@ -57,7 +57,7 @@ const Slide: SlideComponent = ({ step }) => {
         aria-hidden
         className="pointer-events-none absolute"
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 0.55, y: 0 }}
+        animate={{ opacity: 0.75, y: 0 }}
         transition={{ duration: 1.4, delay: 0.7 }}
         style={{ bottom: "20%", left: "50%", transform: "translateX(-50%)" }}
       >

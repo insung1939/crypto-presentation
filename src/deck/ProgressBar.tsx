@@ -9,7 +9,7 @@ export function ProgressBar({ current, total }: Props) {
   const pct = ((current + 1) / total) * 100;
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex items-center gap-4 px-7 pb-5">
-      <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+      <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-surface-3">
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{

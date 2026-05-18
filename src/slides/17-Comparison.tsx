@@ -24,7 +24,7 @@ const Slide: SlideComponent = () => {
       <div className="grid flex-1 grid-cols-[1fr_auto_1fr] items-center gap-12">
         {/* Audience */}
         <Reveal duration={0.85}>
-          <div className="rounded-3xl border border-border bg-white/[0.025] p-10 text-center">
+          <div className="rounded-3xl border border-border bg-surface-1 p-10 text-center">
             <div className="text-eyebrow text-fg-dim">청중의 선택</div>
             {hasVotes ? (
               <>

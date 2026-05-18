@@ -43,7 +43,7 @@ const Slide: SlideComponent = ({ step }) => {
             key={f.label}
             whileHover={{ y: -4 }}
             transition={{ duration: 0.3 }}
-            className="relative overflow-hidden rounded-2xl border border-border bg-white/[0.02] p-7"
+            className="relative overflow-hidden rounded-2xl border border-border bg-surface-1 p-7"
           >
             <div
               aria-hidden

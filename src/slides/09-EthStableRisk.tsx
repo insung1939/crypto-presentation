@@ -46,7 +46,7 @@ function CaseCard({ c, color }: { c: Case; color: string }) {
     <motion.div
       whileHover={{ y: -3 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl border border-border bg-white/[0.025] p-5"
+      className="rounded-2xl border border-border bg-surface-1 p-5"
     >
       <div className="flex items-baseline gap-3">
         <span

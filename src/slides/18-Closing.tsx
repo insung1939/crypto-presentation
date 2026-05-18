@@ -12,7 +12,7 @@ const Slide: SlideComponent = () => (
       transition={{ duration: 1.6 }}
       style={{
         background:
-          "radial-gradient(circle at 50% 55%, rgba(167,139,250,0.25), transparent 55%), radial-gradient(circle at 80% 80%, rgba(47,214,158,0.10), transparent 50%)",
+          "radial-gradient(circle at 50% 55%, rgba(109,59,212,0.18), transparent 55%), radial-gradient(circle at 85% 85%, rgba(15,157,106,0.12), transparent 50%)",
       }}
     />
 
@@ -26,7 +26,7 @@ const Slide: SlideComponent = () => (
         </h2>
       </Reveal>
       <Reveal delay={0.6}>
-        <div className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-white/[0.04] px-5 py-2">
+        <div className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-surface-2 px-5 py-2">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
           <span className="text-caption text-fg-muted">
             KAIST DFMBA · 재무회계 · 가상자산 팀

@@ -51,7 +51,7 @@ const Slide: SlideComponent = ({ step }) => {
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
-              className="relative overflow-hidden rounded-3xl border border-border bg-white/[0.02] p-7"
+              className="relative overflow-hidden rounded-3xl border border-border bg-surface-1 p-7"
             >
               <div
                 aria-hidden
@@ -79,7 +79,7 @@ const Slide: SlideComponent = ({ step }) => {
                 </div>
               </div>
 
-              <div className="mt-7 h-2.5 overflow-hidden rounded-full bg-white/[0.05]">
+              <div className="mt-7 h-2.5 overflow-hidden rounded-full bg-surface-2">
                 <motion.div
                   className="h-full rounded-full"
                   style={{

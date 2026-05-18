@@ -2,33 +2,38 @@
 @import "tailwindcss";
 
 @theme {
-  /* Surfaces */
-  --color-bg: #07070b;
-  --color-bg-soft: #0f0f17;
-  --color-bg-elevated: #15151f;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
+  /* ===== Surfaces — premium light theme ===== */
+  --color-bg: #f7f7fa;                 /* main slide bg — warm off-white */
+  --color-bg-soft: #ffffff;            /* elevated cards */
+  --color-bg-elevated: #ffffff;
+  --color-border: rgba(15, 15, 30, 0.1);
+  --color-border-strong: rgba(15, 15, 30, 0.2);
 
-  /* Foreground */
-  --color-fg: #ffffff;
-  --color-fg-muted: #c0c0d0;
-  --color-fg-dim: #7a7a8e;
-  --color-fg-faint: #4a4a5a;
+  /* Layered surface tints — replace the old bg-white/X system */
+  --color-surface-1: rgba(15, 15, 30, 0.04);
+  --color-surface-2: rgba(15, 15, 30, 0.07);
+  --color-surface-3: rgba(15, 15, 30, 0.11);
 
-  /* Brand accents (high-saturation, presentation-safe) */
-  --color-btc: #f7931a;
-  --color-eth: #7c8df2;
-  --color-stable: #2fd69e;
-  --color-accent: #a78bfa;
-  --color-warn: #f87171;
+  /* ===== Foreground ===== */
+  --color-fg: #0a0a14;                 /* near-black, slightly warm */
+  --color-fg-muted: #3a3a4a;
+  --color-fg-dim: #6a6a78;
+  --color-fg-faint: #9a9aa6;
 
-  /* Brand surface tints (10% / 25%) */
-  --tint-btc: rgba(247, 147, 26, 0.1);
-  --tint-eth: rgba(124, 141, 242, 0.12);
-  --tint-stable: rgba(47, 214, 158, 0.12);
-  --tint-accent: rgba(167, 139, 250, 0.14);
+  /* ===== Brand — tuned for white background contrast ===== */
+  --color-btc: #d97706;                /* deeper amber for white bg */
+  --color-eth: #4f5fd3;                /* richer indigo */
+  --color-stable: #0f9d6a;             /* deeper teal-green */
+  --color-accent: #6d3bd4;             /* rich purple */
+  --color-warn: #dc2626;               /* true red */
 
-  /* Presentation typography scale */
+  /* Brand surface tints (10% on light bg reads well) */
+  --tint-btc: rgba(217, 119, 6, 0.1);
+  --tint-eth: rgba(79, 95, 211, 0.1);
+  --tint-stable: rgba(15, 157, 106, 0.1);
+  --tint-accent: rgba(109, 59, 212, 0.1);
+
+  /* ===== Typography scale (unchanged) ===== */
   --text-display: clamp(4.5rem, 6.5vw, 6.5rem);
   --text-h1: clamp(3.2rem, 4.6vw, 4.8rem);
   --text-h2: clamp(2.2rem, 3vw, 3.2rem);
@@ -39,11 +44,11 @@
   --text-micro: clamp(0.85rem, 0.9vw, 1rem);
   --text-eyebrow: clamp(0.9rem, 1vw, 1.1rem);
 
-  /* Easing */
+  /* ===== Easing ===== */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Font */
+  /* ===== Fonts ===== */
   --font-sans:
     "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -73,12 +78,16 @@
 
   body {
     margin: 0;
+  }
+
+  /* Only the deck locks scroll; vote page allows it for mobile */
+  body.deck-mode {
     overflow: hidden;
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-accent) 45%, transparent);
-    color: white;
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+    color: var(--color-fg);
   }
 }
 
@@ -96,13 +105,15 @@
   .text-balance { text-wrap: balance; }
   .text-pretty  { text-wrap: pretty; }
 
-  .grain-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 3px 3px;
-    opacity: 0.4;
+  /* Premium elevated card shadow for light theme */
+  .shadow-card {
+    box-shadow:
+      0 1px 2px rgba(15, 15, 30, 0.04),
+      0 8px 24px -8px rgba(15, 15, 30, 0.1);
+  }
+  .shadow-card-hover {
+    box-shadow:
+      0 1px 2px rgba(15, 15, 30, 0.05),
+      0 14px 36px -10px rgba(15, 15, 30, 0.14);
   }
 }

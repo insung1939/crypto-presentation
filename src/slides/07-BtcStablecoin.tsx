@@ -31,7 +31,7 @@ const Slide: SlideComponent = ({ step }) => {
       </Reveal>
 
       <Reveal delay={0.55} duration={0.85}>
-        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-white/[0.02] p-7">
+        <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-surface-1 p-7">
           <div className="text-eyebrow text-fg-dim">실제 시장에서</div>
 
           <div className="mt-4 text-h3 leading-snug text-pretty">
@@ -52,7 +52,7 @@ const Slide: SlideComponent = ({ step }) => {
                   <span className="font-mono text-caption tracking-wider">{row.label}</span>
                   <span className="text-micro text-fg-dim">{row.note}</span>
                 </div>
-                <div className="mt-3 h-4 overflow-hidden rounded-full bg-white/[0.05]">
+                <div className="mt-3 h-4 overflow-hidden rounded-full bg-surface-2">
                   <motion.div
                     className="h-full rounded-full"
                     style={{
