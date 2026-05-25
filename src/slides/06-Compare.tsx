@@ -4,101 +4,130 @@ import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
 import { BitcoinLogo, EthereumLogo, TetherLogo } from "@/visuals/Logos";
 
-type Row = {
+type Asset = {
   key: string;
   name: string;
-  role: string;
-  trait: string;
-  usecase: string;
-  color: string;
   Logo: (p: { size?: number }) => JSX.Element;
+  color: string;
 };
 
-const rows: Row[] = [
+const assets: Asset[] = [
+  { key: "btc", name: "Bitcoin", Logo: BitcoinLogo, color: "var(--color-btc)" },
+  { key: "eth", name: "Ethereum", Logo: EthereumLogo, color: "var(--color-eth)" },
+  { key: "stable", name: "Stablecoin", Logo: TetherLogo, color: "var(--color-stable)" },
+];
+
+type RowKey =
+  | "identity"
+  | "promise"
+  | "consensus"
+  | "usecase"
+  | "volatility";
+
+const rows: { key: RowKey; label: string; values: Record<string, string> }[] = [
   {
-    key: "btc",
-    name: "Bitcoin",
-    role: "디지털 금",
-    trait: "공급량 2,100만 고정",
-    usecase: "가치 저장 · 투자",
-    color: "var(--color-btc)",
-    Logo: BitcoinLogo,
+    key: "identity",
+    label: "한 줄 정체성",
+    values: { btc: "디지털 금", eth: "월드 컴퓨터", stable: "디지털 달러" },
   },
   {
-    key: "eth",
-    name: "Ethereum",
-    role: "분산 플랫폼",
-    trait: "스마트 컨트랙트",
-    usecase: "DeFi · NFT · 발행 인프라",
-    color: "var(--color-eth)",
-    Logo: EthereumLogo,
+    key: "promise",
+    label: "핵심 약속",
+    values: {
+      btc: "희소성 · 2,100만 개",
+      eth: "스마트 컨트랙트",
+      stable: "1:1 페그",
+    },
   },
   {
-    key: "stable",
-    name: "Stablecoin",
-    role: "디지털 달러",
-    trait: "1:1 페그 · 변동성 ≈ 0",
-    usecase: "송금 · 거래 · 담보",
-    color: "var(--color-stable)",
-    Logo: TetherLogo,
+    key: "consensus",
+    label: "합의 방식",
+    values: { btc: "PoW · 10분/블록", eth: "PoS (2022~)", stable: "준비금 담보" },
+  },
+  {
+    key: "usecase",
+    label: "주된 쓰임",
+    values: {
+      btc: "가치 저장 · 담보",
+      eth: "DeFi · NFT · 인프라",
+      stable: "결제 · 송금 · 기준통화",
+    },
+  },
+  {
+    key: "volatility",
+    label: "변동성",
+    values: { btc: "큼", eth: "큼", stable: "거의 없음" },
   },
 ];
 
 const Slide: SlideComponent = () => {
   return (
     <SlideShell section="01 · 정리" title="세 자산을 한 장으로" accent="accent">
-      <div className="mt-4 grid flex-1 grid-cols-3 gap-6">
-        {rows.map((r, i) => (
-          <Reveal key={r.key} delay={0.2 + i * 0.13} duration={0.85}>
-            <motion.div
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.35 }}
-              className="relative flex h-full flex-col overflow-hidden rounded-3xl border bg-surface-1 p-8"
-              style={{
-                borderColor: `color-mix(in srgb, ${r.color} 30%, transparent)`,
-              }}
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-25 blur-3xl"
-                style={{ background: r.color }}
-              />
+      <Reveal>
+        <p className="max-w-[64ch] text-lead text-fg-muted text-pretty">
+          서로 다른 약속, 서로 다른 쓰임 — 그래서 세 자산은 <span className="text-fg">대체재가 아니라 보완재</span>다.
+        </p>
+      </Reveal>
 
-              <div className="flex items-center gap-4">
-                <r.Logo size={48} />
+      {/* Comparison table */}
+      <div className="mt-8 overflow-hidden rounded-3xl border border-border bg-surface-1">
+        {/* Header row */}
+        <Reveal delay={0.2} duration={0.7}>
+          <div className="grid grid-cols-[1.1fr_1.3fr_1.3fr_1.3fr] items-center gap-4 border-b border-border bg-surface-2 px-7 py-5">
+            <div className="text-eyebrow text-fg-faint">구분</div>
+            {assets.map((a) => (
+              <div key={a.key} className="flex items-center gap-3">
+                <a.Logo size={36} />
                 <span
-                  className="text-eyebrow"
-                  style={{ color: r.color }}
+                  className="text-h3 font-bold leading-none"
+                  style={{ color: a.color }}
                 >
-                  {r.name}
+                  {a.name}
                 </span>
               </div>
+            ))}
+          </div>
+        </Reveal>
 
-              <div
-                className="mt-5 text-h1 font-bold leading-[1.05]"
-                style={{ color: r.color }}
-              >
-                {r.role}
-              </div>
-
-              <div className="mt-10 space-y-6">
-                <div>
-                  <div className="text-micro text-fg-faint">핵심 특성</div>
-                  <div className="mt-1.5 text-h3 leading-snug">{r.trait}</div>
-                </div>
-                <div>
-                  <div className="text-micro text-fg-faint">대표 유스케이스</div>
-                  <div className="mt-1.5 text-h3 leading-snug">{r.usecase}</div>
-                </div>
-              </div>
+        {/* Body rows */}
+        <div className="divide-y divide-border">
+          {rows.map((r, i) => (
+            <motion.div
+              key={r.key}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.35 + i * 0.08,
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="grid grid-cols-[1.1fr_1.3fr_1.3fr_1.3fr] items-center gap-4 px-7 py-5"
+            >
+              <div className="text-caption text-fg-dim">{r.label}</div>
+              {assets.map((a) => {
+                const isIdentity = r.key === "identity";
+                return (
+                  <div
+                    key={a.key}
+                    className={
+                      isIdentity
+                        ? "text-h3 font-bold leading-snug"
+                        : "text-h3 leading-snug text-fg"
+                    }
+                    style={isIdentity ? { color: a.color } : undefined}
+                  >
+                    {r.values[a.key]}
+                  </div>
+                );
+              })}
             </motion.div>
-          </Reveal>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <Reveal delay={0.8}>
-        <p className="mt-10 text-center text-lead text-fg-muted">
-          이제 이 세 자산이 <span className="text-fg">어떻게 엮이는지</span> 살펴봅니다.
+      <Reveal delay={0.95}>
+        <p className="mt-8 text-h3 leading-snug text-fg-muted text-pretty">
+          그렇다면 이 세 자산은 <span className="text-fg">서로 어떻게 엮여 있을까?</span>
         </p>
       </Reveal>
     </SlideShell>
