@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Underline } from "@/motion/Underline";
+import { Highlight } from "@/motion/Highlight";
 import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
 import { BitcoinLogo, EthereumLogo, TetherLogo } from "@/visuals/Logos";
@@ -82,14 +82,13 @@ const Slide: SlideComponent = ({ step }) => {
             비트코인, 이더리움,
             <br />
             그리고{" "}
-            <Underline
+            <Highlight
               when={step >= 1}
               color="var(--color-stable)"
-              thickness={6}
               delay={0.3}
             >
               스테이블코인
-            </Underline>
+            </Highlight>
           </h1>
         </Reveal>
 

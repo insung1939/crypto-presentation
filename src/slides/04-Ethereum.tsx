@@ -1,29 +1,22 @@
 import { motion } from "framer-motion";
-import { FileCode2, Fuel, Layers } from "lucide-react";
+import { Coins, Boxes, Image as ImageIcon, DollarSign, Zap, ChevronDown } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
-import { Stagger } from "@/motion/Stagger";
-import { Underline } from "@/motion/Underline";
 import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
 import { EthereumLogo } from "@/visuals/Logos";
 
-const pillars = [
-  {
-    Icon: FileCode2,
-    title: "스마트 컨트랙트",
-    body: "조건이 충족되면 중개인 없이 자동으로 실행되는 계약. DeFi · NFT · DApp의 토대.",
-  },
-  {
-    Icon: Fuel,
-    title: "ETH = 가스비",
-    body: "이더리움 위 모든 거래는 ETH로 수수료를 지불. 사용량이 곧 수요로 직결.",
-  },
-  {
-    Icon: Layers,
-    title: "PoS 전환 (2022)",
-    body: "The Merge로 작업증명 → 지분증명. 에너지 소비 99.95% 감소.",
-  },
+type App = {
+  label: string;
+  Icon: typeof Coins;
+  emphasis?: boolean;
+};
+
+const apps: App[] = [
+  { label: "DeFi", Icon: Coins },
+  { label: "DApp", Icon: Boxes },
+  { label: "NFT", Icon: ImageIcon },
+  { label: "Stablecoin", Icon: DollarSign, emphasis: true },
 ];
 
 const Slide: SlideComponent = ({ step }) => {
@@ -45,48 +38,165 @@ const Slide: SlideComponent = ({ step }) => {
       accent="eth"
     >
       <Reveal>
-        <p className="max-w-[72ch] text-lead text-fg-muted text-pretty">
-          2013년 비탈릭 부테린 백서 발표, 2015년 메인넷 출시. 단순한 코인이 아니라{" "}
-          <span className="text-fg">블록체인 서비스를 돌리는 플랫폼</span>.
+        <p
+          className="text-lead text-fg-muted text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
+          2013년 비탈릭 부테린이 백서를 발표, 2015년 메인넷 출시. 블록체인 서비스를 돌릴 수 있는 플랫폼이다.
         </p>
       </Reveal>
 
-      {/* Three pillars */}
-      <Stagger delay={0.3} step={0.12} className="mt-9 grid grid-cols-3 gap-5">
-        {pillars.map((p) => (
-          <motion.div
-            key={p.title}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3 }}
-            className="flex h-full flex-col rounded-2xl border border-eth/25 bg-eth/[0.06] p-6"
-          >
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-eth/15 text-eth">
-              <p.Icon size={22} strokeWidth={1.8} />
-            </div>
-            <div className="mt-5 text-h3 font-semibold text-eth">{p.title}</div>
-            <div className="mt-3 text-body text-fg-muted leading-snug text-pretty">
-              {p.body}
-            </div>
-          </motion.div>
-        ))}
-      </Stagger>
-
-      {/* Bridge insight */}
-      <Reveal delay={0.85} duration={0.85}>
-        <div className="mt-10 rounded-3xl border border-border bg-surface-1 p-7">
-          <div className="text-eyebrow text-fg-dim">이 발표에서 가장 중요한 한 줄</div>
-          <div className="mt-3 text-h2 leading-snug text-pretty">
-            세계 시가총액 1·2위 스테이블코인인{" "}
-            <Highlight when={step >= 1} color="var(--color-eth)" delay={0.15}>
-              USDT · USDC가 발행되는 곳
-            </Highlight>{" "}
-            이 바로{" "}
-            <Underline when={step >= 1} color="var(--color-eth)" delay={0.45}>
-              이더리움
-            </Underline>
-            이다.
-          </div>
+      {/* Layered visualization: apps → smart contract → Ethereum */}
+      <div className="relative mt-8 flex flex-col gap-4">
+        {/* TOP — Apps dropping onto the platform */}
+        <div className="grid grid-cols-4 gap-4">
+          {apps.map((a, i) => (
+            <motion.div
+              key={a.label}
+              initial={{ opacity: 0, y: -34 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.9 + i * 0.13,
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <motion.div
+                animate={
+                  a.emphasis && step >= 1
+                    ? { y: [0, -4, 0], scale: [1, 1.03, 1] }
+                    : {}
+                }
+                transition={{
+                  duration: 1.6,
+                  repeat: a.emphasis && step >= 1 ? Infinity : 0,
+                  ease: "easeInOut",
+                }}
+                className={
+                  a.emphasis
+                    ? "flex items-center justify-center gap-2 rounded-2xl border-2 border-eth bg-eth/[0.14] px-5 py-4 shadow-card"
+                    : "flex items-center justify-center gap-2 rounded-2xl border border-border bg-surface-1 px-5 py-4"
+                }
+                style={
+                  a.emphasis
+                    ? {
+                        boxShadow: `0 0 32px color-mix(in srgb, var(--color-eth) 35%, transparent)`,
+                      }
+                    : undefined
+                }
+              >
+                <a.Icon
+                  size={22}
+                  strokeWidth={1.8}
+                  className={a.emphasis ? "text-eth" : "text-fg-muted"}
+                />
+                <span
+                  className={
+                    a.emphasis
+                      ? "text-h3 font-bold text-eth"
+                      : "text-h3 font-semibold text-fg"
+                  }
+                >
+                  {a.label}
+                </span>
+              </motion.div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Connecting arrows */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.4 }}
+          className="grid grid-cols-4"
+        >
+          {apps.map((a) => (
+            <div key={a.label} className="flex justify-center">
+              <motion.div
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown
+                  size={20}
+                  strokeWidth={2}
+                  className={a.emphasis ? "text-eth" : "text-fg-faint"}
+                />
+              </motion.div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* MIDDLE — Smart Contract engine */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden rounded-2xl border border-eth/35 bg-eth/[0.06] px-6 py-5"
+        >
+          <div className="flex items-center gap-5">
+            <motion.div
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              className="flex h-12 w-12 items-center justify-center rounded-xl bg-eth/15 text-eth"
+            >
+              <Zap size={22} strokeWidth={1.8} />
+            </motion.div>
+
+            <div className="flex-1">
+              <div className="text-eyebrow text-eth">스마트 컨트랙트</div>
+              <div
+                className="mt-1.5 font-mono text-h3 leading-snug text-fg"
+                style={{ wordBreak: "keep-all" }}
+              >
+                if (조건 충족){" "}
+                <span className="text-eth">→</span> 자동 실행 — 중개인 없이.
+              </div>
+            </div>
+
+            <span className="hidden shrink-0 rounded-full bg-eth/15 px-4 py-1.5 text-caption font-mono text-eth md:inline-flex">
+              EVM
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Bottom platform pedestal */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="relative flex items-center justify-between gap-6 overflow-hidden rounded-2xl px-7 py-5"
+          style={{
+            background: "linear-gradient(135deg, var(--color-eth), color-mix(in srgb, var(--color-eth) 75%, black))",
+          }}
+        >
+          <div className="flex items-center gap-4 text-white">
+            <EthereumLogo size={48} />
+            <div>
+              <div className="text-eyebrow text-white/70">PLATFORM · LAYER 1</div>
+              <div className="text-h2 font-bold leading-tight">Ethereum</div>
+            </div>
+          </div>
+          <div className="text-right text-caption text-white/85">
+            모든 거래의 수수료 = <span className="font-semibold text-white">ETH</span>
+            <br />
+            2022 The Merge — PoW → PoS
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Payoff */}
+      <Reveal delay={1.8} duration={0.75}>
+        <p
+          className="mt-7 text-h3 leading-snug text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
+          그리고 결정적으로 —{" "}
+          <Highlight when={step >= 1} color="var(--color-eth)" delay={0.15}>
+            USDT · USDC도 이더리움 위에서 발행
+          </Highlight>
+          된다.
+        </p>
       </Reveal>
     </SlideShell>
   );

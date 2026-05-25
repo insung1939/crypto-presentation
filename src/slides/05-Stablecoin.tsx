@@ -3,7 +3,7 @@ import { Landmark, ArrowRightLeft, Banknote, Layers } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { Stagger } from "@/motion/Stagger";
-import { Underline } from "@/motion/Underline";
+import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
 import { TetherLogo, UsdcLogo } from "@/visuals/Logos";
 
@@ -30,8 +30,12 @@ const Slide: SlideComponent = ({ step }) => {
   return (
     <SlideShell section="01 · 세 자산" title="스테이블코인 — 디지털 달러" accent="stable">
       <Reveal>
-        <p className="max-w-[74ch] text-lead text-fg-muted text-pretty">
+        <p
+          className="text-lead text-fg-muted text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
           달러 등 법정화폐에 <span className="text-fg">1:1로 가치를 연동</span>한 가상자산.
+          <br />
           발행사가 1코인당 실제 달러·국채를 보유해 가격 안정성을 확보한다.
         </p>
       </Reveal>
@@ -85,11 +89,14 @@ const Slide: SlideComponent = ({ step }) => {
       </div>
 
       <Reveal delay={0.7}>
-        <p className="mt-6 text-h3 leading-snug text-pretty">
+        <p
+          className="mt-6 text-h3 leading-snug text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
           두 코인의 합산 점유율{" "}
-          <Underline when={step >= 1} color="var(--color-stable)" delay={0.2}>
+          <Highlight when={step >= 1} color="var(--color-stable)" delay={0.2}>
             약 85%
-          </Underline>
+          </Highlight>
           {" "}— 사실상 시장을 양분한다.
         </p>
       </Reveal>

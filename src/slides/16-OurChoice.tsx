@@ -3,7 +3,7 @@ import { Layers, Heart, Wallet, Globe2, AlertTriangle } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { Stagger } from "@/motion/Stagger";
-import { Underline } from "@/motion/Underline";
+import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
 import { XLogo } from "@/visuals/Logos";
 
@@ -48,9 +48,9 @@ const Slide: SlideComponent = ({ step }) => {
           >
             <XLogo size={72} />
             <span className="text-display leading-none text-fg">
-              <Underline when={step >= 1} color="var(--color-accent)" thickness={5} delay={0.4}>
+              <Highlight when={step >= 1} color="var(--color-accent)" delay={0.4}>
                 X.corp
-              </Underline>
+              </Highlight>
             </span>
           </motion.div>
           <span className="text-lead text-fg-muted">를 골랐습니다.</span>

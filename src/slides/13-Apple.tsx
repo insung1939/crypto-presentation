@@ -1,6 +1,6 @@
 import { Radio, CreditCard, ShieldCheck } from "lucide-react";
 import { CompanyShell } from "./_CompanyShell";
-import { Underline } from "@/motion/Underline";
+import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
 import { AppleLogo } from "@/visuals/Logos";
 
@@ -15,9 +15,9 @@ const Slide: SlideComponent = ({ step }) => (
     headline={
       <>
         2024년 iOS 18.1부터 NFC가 개방되면서, 개발자들이{" "}
-        <Underline when={step >= 1} color="var(--color-accent)" delay={0.15}>
+        <Highlight when={step >= 1} color="var(--color-accent)" delay={0.15}>
           Apple Pay 위에 스테이블코인 결제
-        </Underline>
+        </Highlight>
         를 얹을 수 있게 됐다.
       </>
     }

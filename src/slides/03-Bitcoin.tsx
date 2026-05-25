@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { Stagger } from "@/motion/Stagger";
-import { Underline } from "@/motion/Underline";
 import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
 import { BitcoinLogo } from "@/visuals/Logos";
@@ -33,8 +32,12 @@ const Slide: SlideComponent = ({ step }) => {
       accent="btc"
     >
       <Reveal>
-        <p className="max-w-[68ch] text-lead text-fg-muted text-pretty">
-          세계 최초의 <span className="text-fg">탈중앙화 디지털 자산</span>.
+        <p
+          className="text-lead text-fg-muted text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
+          2009년 사토시 나카모토가 제안한 세계 최초의 탈중앙화 디지털 자산.
+          <br />
           중앙기관 없이 개인 간 직접 거래가 가능하다.
         </p>
       </Reveal>
@@ -51,11 +54,14 @@ const Slide: SlideComponent = ({ step }) => {
                 </span>
                 <span className="text-h2 font-semibold text-btc/80">개</span>
               </div>
-              <div className="mt-4 text-h3 text-fg-muted leading-snug max-w-[44ch]">
+              <div
+                className="mt-4 text-h3 text-fg-muted leading-snug max-w-[44ch]"
+                style={{ wordBreak: "keep-all" }}
+              >
                 더 이상 찍어낼 수 없다. 법정화폐와의{" "}
-                <Underline when={step >= 1} color="var(--color-btc)" delay={0.25}>
+                <Highlight when={step >= 1} color="var(--color-btc)" delay={0.25}>
                   가장 큰 차이
-                </Underline>
+                </Highlight>
                 .
               </div>
             </div>
@@ -92,13 +98,17 @@ const Slide: SlideComponent = ({ step }) => {
 
       {/* Payoff */}
       <Reveal delay={1.25} duration={0.8}>
-        <p className="mt-9 text-h3 leading-snug text-pretty">
-          변동성이 큰 만큼 일상 결제가 아닌{" "}
+        <p
+          className="mt-9 text-h3 leading-snug text-pretty"
+          style={{ wordBreak: "keep-all" }}
+        >
+          가격 변동성이 크기 때문에 일상 결제보다는{" "}
           <Highlight when={step >= 2} color="var(--color-btc)" delay={0.15}>
-            장기 보유·가치 저장·담보 자산
+            장기 보유 · 투자 · 담보자산
           </Highlight>
-          으로 자리잡았다 — 시장이 부르는 이름,{" "}
-          <span className="font-semibold text-btc">디지털 금</span>.
+          으로 활용되며,
+          <br />
+          시장은 이를 <span className="font-semibold text-btc">디지털 금</span>이라 부른다.
         </p>
       </Reveal>
     </SlideShell>
