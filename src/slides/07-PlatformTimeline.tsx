@@ -10,21 +10,22 @@ type Node = {
   label: string;
   note?: string;
   tone?: "fail" | "win" | "ghost";
+  logo?: string;
 };
 
 const metaNodes: Node[] = [
   { year: "2019", label: "Libra 발표", note: "글로벌 디지털 화폐 시도" },
-  { year: "2020~21", label: "Diem · Novi", note: "달러 연동 축소 · 규제 충돌" },
+  { year: "2020~21", label: "Diem · Novi", note: "달러 연동 축소 · 규제 충돌", logo: "/brand/diem.svg" },
   { year: "2022", label: "완전 철수", note: "Diem 청산 · Novi 종료", tone: "fail" },
   { year: "2025", label: "전략 전환", note: "발행 포기 · 유통망 전략", tone: "ghost" },
-  { year: "2026", label: "USDC 파일럿", note: "크리에이터 정산 시도", tone: "ghost" },
+  { year: "2026", label: "USDC 파일럿", note: "크리에이터 정산 시도", tone: "ghost", logo: "/brand/usdc.svg" },
   { year: "2027+", label: "글로벌 확장", note: "160개국+ · P2P·소셜커머스", tone: "ghost" },
 ];
 
 const xNodes: Node[] = [
   { year: "2022", label: "Twitter 인수", note: "슈퍼앱 전략 선언" },
   { year: "2023~24", label: "인프라 구축", note: "MTL · BaaS 기반 확보" },
-  { year: "2025", label: "결제 레일 확보", note: "Visa · Cross River" },
+  { year: "2025", label: "결제 레일 확보", note: "Visa · Cross River", logo: "/brand/visa.svg" },
   { year: "2026", label: "X Money 베타", note: "송금 · 예치 · 카드" },
   { year: "2027+", label: "금융 슈퍼앱", note: "스테이블코인 · 투자 · 대출", tone: "win" },
 ];
@@ -115,6 +116,11 @@ function Lane({
                   <div className="mt-0.5 text-[0.72rem] leading-tight text-fg-faint" style={{ wordBreak: "keep-all" }}>
                     {n.note}
                   </div>
+                )}
+                {n.logo && (
+                  <span className="mt-1.5 inline-flex items-center rounded-md bg-white px-1.5 py-1 shadow-sm ring-1 ring-black/5">
+                    <img src={n.logo} alt="" className="h-3.5 w-auto object-contain" />
+                  </span>
                 )}
               </motion.div>
             );
