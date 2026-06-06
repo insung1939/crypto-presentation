@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
-import { CompanyKey } from "./companies";
+import { CompanyKey, companyMap } from "./companies";
 
 const CLIENT_KEY = "crypto_presentation_client_id";
 const CHOICE_KEY = "crypto_presentation_choice";
+
+/** A stored choice from an older ballot (e.g. "samsung") may no longer be a
+ *  valid option. Treat anything not in the current company map as no vote. */
+function readStoredChoice(): CompanyKey | null {
+  const stored = localStorage.getItem(CHOICE_KEY) as CompanyKey | null;
+  if (stored && stored in companyMap) return stored;
+  if (stored) localStorage.removeItem(CHOICE_KEY);
+  return null;
+}
 
 function getClientId(): string {
   let id = localStorage.getItem(CLIENT_KEY);
@@ -15,9 +24,7 @@ function getClientId(): string {
 }
 
 export function useVote() {
-  const [choice, setChoice] = useState<CompanyKey | null>(
-    () => (localStorage.getItem(CHOICE_KEY) as CompanyKey | null) ?? null,
-  );
+  const [choice, setChoice] = useState<CompanyKey | null>(readStoredChoice);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

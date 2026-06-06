@@ -1,15 +1,37 @@
 import { useEffect, useRef } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ChevronRight, Sparkles } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { Check, ChevronRight } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useVote } from "./useVote";
 import { useVoteCounts } from "./useVoteCounts";
-import { companies, CompanyKey, companyMap } from "./companies";
-import { companyLogo } from "@/visuals/Logos";
+import { CompanyKey, companyMap } from "./companies";
+import { XLogo, AppleLogo } from "@/visuals/Logos";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
-/* ────────────────────────────────────────────────
-   Animated counter
-   ──────────────────────────────────────────────── */
+const X_COLOR = companyMap.x.color; // #111827
+const A_COLOR = companyMap.apple.color; // #0071e3
+
+type Choice = {
+  key: CompanyKey;
+  Logo: (p: { size?: number }) => JSX.Element;
+  name: string;
+  tagline: string;
+  hint: string;
+  color: string;
+};
+
+const choices: Choice[] = [
+  { key: "x", Logo: XLogo, name: "X", tagline: "금융 슈퍼앱 전환", hint: "직접 금융 인프라로 확장", color: X_COLOR },
+  { key: "apple", Logo: AppleLogo, name: "Apple", tagline: "소비자 접점 통제", hint: "결제 UX·생태계 장악", color: A_COLOR },
+];
+
+/* ───────── helpers ───────── */
 function AnimatedNumber({ value }: { value: number }) {
   const mv = useMotionValue(value);
   const spring = useSpring(mv, { stiffness: 160, damping: 22 });
@@ -20,191 +42,191 @@ function AnimatedNumber({ value }: { value: number }) {
   return <motion.span>{display}</motion.span>;
 }
 
-/* ────────────────────────────────────────────────
-   Confetti burst
-   ──────────────────────────────────────────────── */
 function fireBurst(color: string) {
-  const defaults = {
-    spread: 70,
-    ticks: 70,
-    gravity: 0.9,
-    decay: 0.94,
-    startVelocity: 38,
-    colors: [color, "#ffffff", "#fde68a"],
-  };
-  confetti({ ...defaults, particleCount: 60, origin: { x: 0.5, y: 0.35 } });
-  confetti({
-    ...defaults,
-    particleCount: 30,
-    angle: 60,
-    spread: 55,
-    origin: { x: 0, y: 0.55 },
-  });
-  confetti({
-    ...defaults,
-    particleCount: 30,
-    angle: 120,
-    spread: 55,
-    origin: { x: 1, y: 0.55 },
-  });
+  const defaults = { spread: 75, ticks: 80, gravity: 0.9, decay: 0.93, startVelocity: 40, colors: [color, "#ffffff", "#6d3bd4"] };
+  confetti({ ...defaults, particleCount: 70, origin: { x: 0.5, y: 0.4 } });
+  confetti({ ...defaults, particleCount: 30, angle: 60, origin: { x: 0, y: 0.6 } });
+  confetti({ ...defaults, particleCount: 30, angle: 120, origin: { x: 1, y: 0.6 } });
 }
 
-/* ────────────────────────────────────────────────
-   Mesh gradient backdrop
-   ──────────────────────────────────────────────── */
 function MeshBackdrop() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10"
+      className="pointer-events-none fixed inset-0 -z-10 mesh-drift"
       style={{
         background:
-          "radial-gradient(circle at 15% 20%, rgba(217,119,6,0.12), transparent 42%), " +
-          "radial-gradient(circle at 85% 25%, rgba(79,95,211,0.14), transparent 42%), " +
-          "radial-gradient(circle at 75% 85%, rgba(109,59,212,0.12), transparent 42%), " +
-          "radial-gradient(circle at 20% 90%, rgba(15,157,106,0.1), transparent 42%)",
+          "radial-gradient(circle at 18% 12%, rgba(17,24,39,0.10), transparent 45%), " +
+          "radial-gradient(circle at 85% 20%, rgba(0,113,227,0.16), transparent 45%), " +
+          "radial-gradient(circle at 50% 95%, rgba(109,59,212,0.12), transparent 48%)",
       }}
     />
   );
 }
 
-/* ────────────────────────────────────────────────
-   Pick card
-   ──────────────────────────────────────────────── */
-function PickCard({
+/* ───────── duel pick card ───────── */
+function DuelCard({
+  c,
   index,
-  k,
   onPick,
   disabled,
 }: {
+  c: Choice;
   index: number;
-  k: CompanyKey;
   onPick: (k: CompanyKey) => void;
   disabled: boolean;
 }) {
-  const c = companyMap[k];
-  const Logo = companyLogo[k];
   return (
     <motion.button
-      initial={{ opacity: 0, y: 14 }}
+      initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.5,
-        delay: 0.15 + index * 0.06,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => onPick(k)}
+      transition={{ duration: 0.5, delay: 0.15 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={{ scale: 0.97 }}
+      onClick={() => onPick(c.key)}
       disabled={disabled}
-      className="relative w-full overflow-hidden rounded-3xl border border-border bg-bg-soft text-left shadow-card transition disabled:opacity-60"
+      className="relative w-full overflow-hidden rounded-3xl border-2 bg-bg-soft p-5 text-left shadow-card transition disabled:opacity-60"
+      style={{ borderColor: `color-mix(in srgb, ${c.color} 32%, transparent)` }}
     >
-      <div className="relative flex items-center gap-4 px-4 py-4 sm:gap-5 sm:px-5 sm:py-5">
-        <Logo size={52} />
-
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-2xl"
+        style={{ background: c.color, opacity: 0.16 }}
+      />
+      <div className="relative flex items-center gap-4">
+        <div
+          className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl"
+          style={{ background: `color-mix(in srgb, ${c.color} 10%, transparent)` }}
+        >
+          <c.Logo size={52} />
+        </div>
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[1.25rem] font-bold leading-tight text-fg sm:text-[1.4rem]">
-            {c.name}
-          </div>
-          <div className="mt-0.5 truncate text-[0.88rem] text-fg-muted sm:text-[0.95rem]">
-            {c.tagline}
+          <div className="text-[1.6rem] font-bold leading-none text-fg">{c.name}</div>
+          <div className="mt-1.5 text-[0.95rem] font-semibold text-fg-muted">{c.tagline}</div>
+          <div className="mt-1 flex items-center gap-1.5 text-[0.82rem] text-fg-dim">
+            <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: c.color }} />
+            {c.hint}
           </div>
         </div>
-
         <span
-          aria-hidden
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
-          style={{
-            background: `color-mix(in srgb, ${c.color} 14%, transparent)`,
-            color: c.color,
-          }}
+          className="inline-flex h-11 shrink-0 items-center gap-1 rounded-full px-3 text-[0.85rem] font-bold text-white"
+          style={{ background: c.color }}
         >
-          <ChevronRight size={22} strokeWidth={2.2} />
+          투표 <ChevronRight size={16} strokeWidth={2.6} />
         </span>
       </div>
     </motion.button>
   );
 }
 
-/* ────────────────────────────────────────────────
-   Confirmation card
-   ──────────────────────────────────────────────── */
+/* ───────── live head-to-head ───────── */
+function HeadToHead({ x, a }: { x: number; a: number }) {
+  const total = x + a;
+  const xShare = total ? (x / total) * 100 : 50;
+  const aShare = total ? (a / total) * 100 : 50;
+  return (
+    <div>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-fg-dim">
+          <motion.span
+            className="inline-block h-2 w-2 rounded-full bg-stable"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.4, repeat: Infinity }}
+          />
+          LIVE 실시간 집계
+        </span>
+        <span className="font-mono tabular-nums text-fg">
+          <span className="text-[1.3rem] font-bold leading-none">
+            <AnimatedNumber value={total} />
+          </span>
+          <span className="ml-1 text-[0.75rem] text-fg-dim">표</span>
+        </span>
+      </div>
+
+      {/* split bar */}
+      <div className="flex h-14 overflow-hidden rounded-2xl bg-surface-2">
+        <motion.div
+          className="flex items-center justify-start pl-4"
+          style={{ background: `linear-gradient(90deg, ${X_COLOR}, color-mix(in srgb, ${X_COLOR} 70%, #555))` }}
+          animate={{ width: `${xShare}%` }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="font-mono text-[1.2rem] font-bold tabular-nums text-white">{Math.round(xShare)}%</span>
+        </motion.div>
+        <motion.div
+          className="flex flex-1 items-center justify-end pr-4"
+          style={{ background: `linear-gradient(90deg, color-mix(in srgb, ${A_COLOR} 70%, white), ${A_COLOR})` }}
+        >
+          <span className="font-mono text-[1.2rem] font-bold tabular-nums text-white">{Math.round(aShare)}%</span>
+        </motion.div>
+      </div>
+
+      {/* labels + counts */}
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <XLogo size={26} />
+          <span className="font-bold text-fg">X</span>
+          <span className="font-mono tabular-nums text-fg-dim">
+            <AnimatedNumber value={x} />표
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-mono tabular-nums text-fg-dim">
+            <AnimatedNumber value={a} />표
+          </span>
+          <span className="font-bold text-fg">Apple</span>
+          <AppleLogo size={26} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ───────── confirmation ───────── */
 function Confirmation({ choice }: { choice: CompanyKey }) {
   const c = companyMap[choice];
-  const Logo = companyLogo[choice];
+  const Logo = choice === "apple" ? AppleLogo : XLogo;
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96, y: 14 }}
+      initial={{ opacity: 0, scale: 0.96, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 200, damping: 22 }}
-      className="relative overflow-hidden rounded-3xl border border-border bg-bg-soft px-6 py-7 text-center shadow-card"
-      style={{
-        boxShadow: `0 1px 2px rgba(15,15,30,0.05), 0 24px 60px -18px color-mix(in srgb, ${c.color} 35%, rgba(15,15,30,0.12))`,
-      }}
+      className="relative overflow-hidden rounded-3xl border-2 bg-bg-soft px-6 py-6 text-center shadow-card"
+      style={{ borderColor: `color-mix(in srgb, ${c.color} 35%, transparent)` }}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-0"
-        style={{
-          background: `radial-gradient(circle at 50% 30%, color-mix(in srgb, ${c.color} 14%, transparent), transparent 60%)`,
-        }}
+        className="pointer-events-none absolute inset-0"
+        style={{ background: `radial-gradient(circle at 50% 25%, color-mix(in srgb, ${c.color} 14%, transparent), transparent 60%)` }}
       />
-
-      <div className="relative text-[0.75rem] font-semibold tracking-[0.22em] text-fg-dim uppercase">
-        <Sparkles size={14} className="-mt-0.5 mr-1 inline align-middle" />
-        투표 완료
-      </div>
-
       <motion.div
-        initial={{ scale: 0.6, opacity: 0 }}
+        initial={{ scale: 0.4, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
-        className="relative mx-auto mt-5 w-fit"
+        transition={{ type: "spring", stiffness: 240, damping: 14, delay: 0.05 }}
+        className="relative mx-auto flex h-12 w-12 items-center justify-center rounded-full text-white"
+        style={{ background: c.color }}
       >
-        <Logo size={88} />
+        <Check size={26} strokeWidth={3} />
       </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.4 }}
-        className="relative mt-4 text-[2rem] font-bold leading-none text-fg sm:text-[2.3rem]"
-      >
-        {c.name}
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.45 }}
-        className="relative mt-2 text-[0.92rem] text-fg-muted"
-      >
-        {c.tagline}
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="relative mt-4 text-[0.9rem] text-fg-dim"
-      >
-        감사합니다 · 발표 화면에서 실시간 결과를 확인하세요
-      </motion.div>
+      <div className="relative mt-4 flex items-center justify-center gap-3">
+        <Logo size={44} />
+        <span className="text-[2rem] font-bold leading-none text-fg">{c.name}</span>
+      </div>
+      <div className="relative mt-2 text-[0.95rem] text-fg-muted">에 투표했습니다 · 감사합니다</div>
     </motion.div>
   );
 }
 
-/* ────────────────────────────────────────────────
-   Page
-   ──────────────────────────────────────────────── */
+/* ───────── page ───────── */
 export function VotePage() {
   const { choice, submit, submitting, error } = useVote();
   const { counts } = useVoteCounts();
-  const total = Object.values(counts).reduce((a, b) => a + b, 0);
-  const sorted = [...companies].sort((a, b) => counts[b.key] - counts[a.key]);
-  const max = Math.max(1, ...Object.values(counts));
+  const x = counts.x ?? 0;
+  const a = counts.apple ?? 0;
 
   const lastChoice = useRef<CompanyKey | null>(null);
   useEffect(() => {
     if (choice && lastChoice.current !== choice) {
-      const color = companyMap[choice].color;
+      const color = companyMap[choice]?.color ?? "#6d3bd4";
       const t = setTimeout(() => fireBurst(color), 80);
       lastChoice.current = choice;
       return () => clearTimeout(t);
@@ -215,20 +237,20 @@ export function VotePage() {
   return (
     <>
       <MeshBackdrop />
-      <div className="relative min-h-[100dvh] overflow-x-hidden text-fg">
+      <div className="relative flex min-h-[100dvh] flex-col text-fg">
         <div
-          className="mx-auto flex w-full max-w-[36rem] flex-col px-4 py-6"
+          className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-5 py-7"
           style={{
             paddingBottom: "calc(env(safe-area-inset-bottom, 0) + 1.5rem)",
-            paddingTop: "calc(env(safe-area-inset-top, 0) + 1.25rem)",
+            paddingTop: "calc(env(safe-area-inset-top, 0) + 1.5rem)",
           }}
         >
-          <header className="mb-6 text-center">
+          <header className="text-center">
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-[0.72rem] font-semibold tracking-[0.22em] text-fg-dim uppercase"
+              className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-fg-dim"
             >
               KAIST DFMBA · 재무회계 · 9조
             </motion.div>
@@ -236,139 +258,78 @@ export function VotePage() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-3 text-balance text-[1.65rem] font-bold leading-[1.18] sm:text-[2rem]"
+              className="mt-3 text-balance text-[1.7rem] font-bold leading-[1.2] sm:text-[2rem]"
             >
-              어느 빅테크에<br />투자하시겠습니까?
+              어디에 투자하시겠습니까?
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.16 }}
-              className="mt-2.5 text-[0.92rem] text-fg-muted"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.18 }}
+              className="mt-2 text-[0.9rem] text-fg-muted"
             >
-              익명 · 한 번만 가능
+              X vs Apple · 익명 · 한 번만 가능
             </motion.p>
           </header>
 
-          <AnimatePresence mode="wait">
-            {!choice ? (
-              <motion.div
-                key="picker"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35 }}
-                className="flex flex-col gap-3"
-              >
-                {companies.map((c, i) => (
-                  <PickCard
-                    key={c.key}
-                    index={i}
-                    k={c.key}
-                    onPick={submit}
-                    disabled={submitting}
-                  />
-                ))}
-                {error && (
-                  <div className="mt-2 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-3 text-[0.9rem] text-warn">
-                    {error}
-                  </div>
-                )}
-                <p className="mt-3 text-center text-[0.78rem] text-fg-faint">
-                  본인 단말에서 한 번만 가능 · 표는 익명으로 집계됩니다
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="thanks"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-                className="flex flex-col"
-              >
-                <Confirmation choice={choice} />
+          {!isSupabaseConfigured() && (
+            <div className="mt-4 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-3 text-[0.85rem] text-warn">
+              ⚠ Supabase 미설정 — 집계가 동작하지 않습니다.
+            </div>
+          )}
 
+          <div className="flex flex-1 flex-col justify-center">
+            <AnimatePresence mode="wait">
+              {!choice ? (
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="mt-6"
+                  key="picker"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.35 }}
+                  className="flex flex-col gap-3"
                 >
-                  <div className="flex items-baseline justify-between">
-                    <div className="flex items-center gap-2 text-[0.72rem] font-semibold tracking-[0.22em] text-fg-dim uppercase">
-                      <motion.span
-                        className="inline-block h-2 w-2 rounded-full bg-stable"
-                        animate={{ opacity: [0.4, 1, 0.4] }}
-                        transition={{ duration: 1.4, repeat: Infinity }}
-                      />
-                      LIVE · 현재 집계
-                    </div>
-                    <div className="font-mono tabular-nums text-fg">
-                      <span className="text-[1.4rem] font-bold leading-none">
-                        <AnimatedNumber value={total} />
-                      </span>
-                      <span className="ml-1 text-[0.78rem] font-normal text-fg-dim">
-                        표
-                      </span>
-                    </div>
+                  <DuelCard c={choices[0]} index={0} onPick={submit} disabled={submitting} />
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="h-px flex-1 bg-border" />
+                    <span className="font-mono text-[0.8rem] font-bold text-fg-faint">VS</span>
+                    <span className="h-px flex-1 bg-border" />
                   </div>
+                  <DuelCard c={choices[1]} index={1} onPick={submit} disabled={submitting} />
 
-                  <div className="mt-3 flex flex-col gap-2">
-                    {sorted.map((c, i) => {
-                      const n = counts[c.key];
-                      const widthPct = (n / max) * 100;
-                      const sharePct = total ? (n / total) * 100 : 0;
-                      const isLeader =
-                        n > 0 && n > counts[sorted[1]?.key ?? c.key];
-                      return (
-                        <motion.div
-                          key={c.key}
-                          layout
-                          transition={{
-                            layout: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-                          }}
-                          className="rounded-2xl border border-border bg-bg-soft px-3.5 py-2.5 shadow-card"
-                          style={{
-                            boxShadow: isLeader
-                              ? `0 1px 2px rgba(15,15,30,0.04), 0 12px 28px -10px color-mix(in srgb, ${c.color} 30%, rgba(15,15,30,0.1))`
-                              : undefined,
-                          }}
-                        >
-                          <div className="flex items-center justify-between text-[0.95rem]">
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono text-[0.78rem] tabular-nums text-fg-faint">
-                                {String(i + 1).padStart(2, "0")}
-                              </span>
-                              <span className="font-semibold text-fg">{c.name}</span>
-                            </div>
-                            <span className="font-mono tabular-nums text-fg">
-                              <AnimatedNumber value={n} />
-                              <span className="ml-2 text-fg-dim">
-                                {sharePct.toFixed(0)}%
-                              </span>
-                            </span>
-                          </div>
-                          <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-2">
-                            <motion.div
-                              className="h-full rounded-full"
-                              style={{
-                                background: `linear-gradient(90deg, ${c.color}, color-mix(in srgb, ${c.color} 55%, white))`,
-                              }}
-                              animate={{ width: `${widthPct}%` }}
-                              transition={{
-                                duration: 0.7,
-                                ease: [0.22, 1, 0.36, 1],
-                              }}
-                            />
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+                  {error && (
+                    <div className="mt-1 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-3 text-[0.88rem] text-warn">
+                      {error}
+                    </div>
+                  )}
+                  <p className="mt-2 text-center text-[0.78rem] text-fg-faint">
+                    카드를 탭하면 바로 집계됩니다 · 한 번만 가능
+                  </p>
                 </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              ) : (
+                <motion.div
+                  key="thanks"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col gap-6"
+                >
+                  <Confirmation choice={choice} />
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.5 }}
+                    className="rounded-3xl border border-border bg-bg-soft p-5 shadow-card"
+                  >
+                    <HeadToHead x={x} a={a} />
+                  </motion.div>
+                  <p className="text-center text-[0.82rem] text-fg-dim">
+                    발표 화면에서도 실시간으로 함께 집계됩니다
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </>
