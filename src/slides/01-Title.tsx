@@ -98,7 +98,7 @@ const Slide: SlideComponent = ({ step }) => {
         </Reveal>
 
         <Reveal delay={0.25} duration={0.9}>
-          <h1 className="mt-8 text-display text-balance leading-[1.04]">
+          <h1 className="mt-8 whitespace-nowrap font-bold leading-[1.04] tracking-[-0.02em] text-[clamp(1.9rem,5vw,4.2rem)]">
             비트코인 · 이더리움 · 스테이블코인
           </h1>
         </Reveal>

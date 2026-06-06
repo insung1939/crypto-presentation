@@ -38,7 +38,7 @@ const Slide: SlideComponent = ({ step }) => {
   return (
     <SlideShell
       section="04 · 최종 투자대상 기업 선정"
-      title="최종 결승 — X vs Apple"
+      title="X vs Apple"
       accent="accent"
     >
       {/* identity headers */}

@@ -115,13 +115,6 @@ const Slide: SlideComponent = ({ step }) => {
         ))}
       </div>
 
-      {!won && (
-        <Reveal delay={0.4}>
-          <p className="mt-4 text-center text-caption text-fg-faint">
-            → 다음: 승자는?
-          </p>
-        </Reveal>
-      )}
     </SlideShell>
   );
 };

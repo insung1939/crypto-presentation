@@ -39,7 +39,7 @@ const chapters = [
 
 const Slide: SlideComponent = ({ step }) => {
   return (
-    <SlideShell section="Agenda" title="오늘 우리가 다룰 것" accent="accent">
+    <SlideShell section="Contents" title="목차" accent="accent">
       <ul className="mt-2 flex flex-1 flex-col justify-center gap-4">
         {chapters.map((row, i) => (
           <Reveal key={row.idx} delay={0.15 + i * 0.09} duration={0.7}>

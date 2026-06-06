@@ -37,8 +37,8 @@ const cols: AssetCol[] = [
       },
       {
         k: "현황",
-        v: "시가총액 약 1.4조 달러 · 1위",
-        sub: "제도권 편입 중인 ‘디지털 금’",
+        v: "시가총액 약 1조 2,100억 달러",
+        sub: "약 1,600조 원 · 제도권 편입 중인 ‘디지털 금’",
       },
     ],
     cap: "가상자산 시장의 신뢰 · 유동성 기준점",
@@ -46,7 +46,7 @@ const cols: AssetCol[] = [
   {
     key: "eth",
     name: "Ethereum",
-    identity: "월드 컴퓨터",
+    identity: "디지털 금융 인프라",
     color: "var(--color-eth)",
     Logo: EthereumLogo,
     rows: [
@@ -62,8 +62,8 @@ const cols: AssetCol[] = [
       },
       {
         k: "현황",
-        v: "시가총액 약 2,000억 달러대",
-        sub: "스테이블코인 공급의 절반 이상을 호스팅",
+        v: "시가총액 약 1,880억 달러",
+        sub: "약 260조 원 · 스테이블코인 공급의 절반 이상 호스팅",
       },
     ],
     cap: "가상자산 서비스가 실제 작동하는 기술 · 금융 인프라",
@@ -191,6 +191,10 @@ const Slide: SlideComponent = ({ step }) => {
             </Reveal>
           </motion.div>
         ))}
+      </div>
+
+      <div className="mt-4 text-right text-micro text-fg-faint">
+        ※ 시가총액은 2026. 6. 6. 기준
       </div>
     </SlideShell>
   );

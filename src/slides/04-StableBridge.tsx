@@ -156,9 +156,10 @@ const Slide: SlideComponent = ({ step }) => {
     <SlideShell
       section="01 · Crypto 생태계 이해"
       title={
-        <>
-          스테이블코인 — <span className="text-stable">둘을 잇는 디지털 달러</span>
-        </>
+        <span style={{ wordBreak: "keep-all" }}>
+          스테이블코인 —{" "}
+          <span className="text-stable">Crypto를 일상으로 연결하는 디지털 결제 인프라</span>
+        </span>
       }
       accent="stable"
     >
@@ -206,7 +207,7 @@ const Slide: SlideComponent = ({ step }) => {
             style={{ background: "var(--color-accent)" }}
           />
           <div className="relative flex items-center gap-5">
-            <span className="text-eyebrow text-accent">그래서 핵심 질문은</span>
+            <span className="text-eyebrow text-accent">핵심 메시지</span>
           </div>
           <p
             className="relative mt-2 text-h2 font-semibold leading-snug text-fg text-pretty"

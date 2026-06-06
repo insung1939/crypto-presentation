@@ -115,8 +115,7 @@ const Slide: SlideComponent = () => {
           <p className="mt-9 text-center text-h3 leading-snug text-pretty" style={{ wordBreak: "keep-all" }}>
             {match ? (
               <>
-                의견이 <span className="font-bold text-stable">일치</span>합니다 — 시장도{" "}
-                <span className="font-semibold text-fg">직접 금융·슈퍼앱 비전</span>에 같은 베팅을 걸고 있다는 신호.
+                청중도 <span className="font-bold text-stable">X</span>를 골랐습니다. 직접 금융 인프라로 확장하는 X의 가능성에, 저희와 같은 쪽을 봤습니다.
               </>
             ) : winner === "tie" ? (
               <>
@@ -124,9 +123,9 @@ const Slide: SlideComponent = () => {
               </>
             ) : (
               <>
-                의견이 <span className="font-bold text-fg">엇갈렸습니다</span> — 청중은{" "}
-                <span className="font-semibold" style={{ color: companyMap.apple.color }}>저위험·접점 통제(Apple)</span>를, 우리는{" "}
-                <span className="font-semibold text-accent">고위험·성장 상방(X)</span>을 택했습니다. 어느 리스크를 감수할 것인가의 차이.
+                의견은 갈렸습니다. 청중은 안정성과 접점 통제 측면에서{" "}
+                <span className="font-semibold" style={{ color: companyMap.apple.color }}>Apple</span>을 선택했고, 저희는 직접 금융 인프라 확장 가능성을 고려해{" "}
+                <span className="font-semibold text-accent">X</span>를 선택했습니다.
               </>
             )}
           </p>

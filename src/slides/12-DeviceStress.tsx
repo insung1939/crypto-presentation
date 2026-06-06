@@ -76,7 +76,11 @@ const Slide: SlideComponent = () => {
   return (
     <SlideShell
       section="03 · 우위분석 Ⓑ · 스트레스 테스트"
-      title="위기 시나리오별 사업 충격 — Samsung vs Apple"
+      title={
+        <span style={{ wordBreak: "keep-all" }}>
+          위기 시나리오별 사업 충격 — Samsung vs Apple
+        </span>
+      }
       accent="accent"
     >
       {/* header */}
