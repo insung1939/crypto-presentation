@@ -9,12 +9,12 @@ export type Company = {
   color: string;
 };
 
+// Final vote pool = X vs Apple only (tournament finalists).
+// The Supabase `votes.choice` check constraint still allows all 5 keys,
+// so no DB migration is needed — we simply expose two options here.
 export const companies: Company[] = [
-  { key: "x", name: "X.corp", tagline: "SNS + 송금 + 투자 · 슈퍼앱", color: "#1a1a2a" },
-  { key: "google", name: "Google", tagline: "블록체인 인프라 (Cloud)", color: "#4285F4" },
-  { key: "samsung", name: "Samsung", tagline: "Blockchain SDK · DApp", color: "#1428A0" },
-  { key: "apple", name: "Apple", tagline: "Apple Pay × BitPay 간접결제", color: "#1d1d1f" },
-  { key: "meta", name: "Meta", tagline: "Libra/Diem · 좌초된 실험", color: "#0866FF" },
+  { key: "x", name: "X", tagline: "금융 슈퍼앱 전환", color: "#111827" },
+  { key: "apple", name: "Apple", tagline: "소비자 접점 통제", color: "#0071e3" },
 ];
 
 export const companyMap: Record<CompanyKey, Company> = companies.reduce(

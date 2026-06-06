@@ -1,45 +1,63 @@
 import { motion } from "framer-motion";
+import { GitMerge, Coins, Rocket } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
-import { companies, companyMap } from "@/vote/companies";
+import { companyMap } from "@/vote/companies";
 import { useVoteCounts } from "@/vote/useVoteCounts";
-import { companyLogo } from "@/visuals/Logos";
+import { XLogo, AppleLogo } from "@/visuals/Logos";
 
 const OUR_PICK = "x" as const;
 
+const reasons = [
+  { Icon: GitMerge, label: "종적 확장성", body: "SNS → 금융 슈퍼앱" },
+  { Icon: Coins, label: "직접 금융 수익", body: "수수료·스프레드·대출" },
+  { Icon: Rocket, label: "성장 상방", body: "성공 시 주도권 확보" },
+];
+
 const Slide: SlideComponent = () => {
   const { counts } = useVoteCounts();
-  const sorted = [...companies].sort((a, b) => counts[b.key] - counts[a.key]);
-  const winner = sorted[0];
-  const total = Object.values(counts).reduce((a, b) => a + b, 0);
-  const hasVotes = total > 0;
-  const match = winner.key === OUR_PICK;
+  const x = counts.x;
+  const a = counts.apple;
+  const total = x + a;
+  const winner = total === 0 ? null : x === a ? "tie" : x > a ? "x" : "apple";
+  const match = winner === OUR_PICK;
 
-  const WinnerLogo = companyLogo[winner.key];
-  const OurLogo = companyLogo[OUR_PICK];
+  const AudienceLogo = winner === "apple" ? AppleLogo : XLogo;
+  const audienceName = winner === "apple" ? "Apple" : winner === "x" ? "X" : "—";
+  const audienceColor = winner === "apple" ? companyMap.apple.color : companyMap.x.color;
 
   return (
-    <SlideShell section="05 · 결론" title="청중과 우리, 같은 선택일까?" accent="accent">
-      <div className="grid flex-1 grid-cols-[1fr_auto_1fr] items-center gap-12">
+    <SlideShell section="04 · 결론" title="우리들의 최종 투자처" accent="accent">
+      <div className="grid flex-1 grid-cols-[1fr_auto_1fr] items-center gap-10">
         {/* Audience */}
         <Reveal duration={0.85}>
-          <div className="rounded-3xl border border-border bg-surface-1 p-10 text-center">
+          <div className="rounded-3xl border border-border bg-surface-1 p-9 text-center">
             <div className="text-eyebrow text-fg-dim">청중의 선택</div>
-            {hasVotes ? (
+            {total > 0 ? (
               <>
                 <div className="mt-6 flex justify-center">
-                  <WinnerLogo size={88} />
+                  {winner === "tie" ? (
+                    <div className="flex items-center gap-3">
+                      <XLogo size={64} />
+                      <AppleLogo size={64} />
+                    </div>
+                  ) : (
+                    <AudienceLogo size={84} />
+                  )}
                 </div>
                 <div className="mt-5 text-display leading-none text-fg">
-                  {winner.name}
+                  {winner === "tie" ? "동률" : audienceName}
                 </div>
                 <div className="mt-4 text-caption text-fg-dim">
-                  <span className="font-mono tabular-nums">
-                    {counts[winner.key]}
+                  <span className="font-mono tabular-nums" style={{ color: audienceColor }}>
+                    X {x}
                   </span>{" "}
-                  표 / 총{" "}
-                  <span className="font-mono tabular-nums">{total}</span> 표
+                  ·{" "}
+                  <span className="font-mono tabular-nums" style={{ color: companyMap.apple.color }}>
+                    Apple {a}
+                  </span>{" "}
+                  / 총 <span className="font-mono tabular-nums">{total}</span> 표
                 </div>
               </>
             ) : (
@@ -63,43 +81,52 @@ const Slide: SlideComponent = () => {
         {/* Our team */}
         <Reveal delay={0.15} duration={0.85}>
           <div
-            className="relative overflow-hidden rounded-3xl border-2 bg-bg-soft p-10 text-center shadow-card"
-            style={{
-              borderColor: "color-mix(in srgb, var(--color-accent) 35%, transparent)",
-            }}
+            className="relative overflow-hidden rounded-3xl border-2 bg-bg-soft p-9 text-center shadow-card"
+            style={{ borderColor: "color-mix(in srgb, var(--color-accent) 35%, transparent)" }}
           >
             <motion.div
               aria-hidden
               className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl"
               style={{ background: "var(--color-accent)" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.22 }}
-              transition={{ duration: 1.2 }}
+              animate={{ opacity: [0.16, 0.3, 0.16] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
-            <div className="text-eyebrow text-accent">우리 팀의 선택</div>
-            <div className="mt-6 flex justify-center">
-              <OurLogo size={88} />
+            <div className="text-eyebrow text-accent">우리들의 선택</div>
+            <div className="mt-5 flex justify-center">
+              <XLogo size={80} />
             </div>
-            <div className="mt-5 text-display leading-none text-fg">
-              {companyMap[OUR_PICK].name}
+            <div className="mt-4 text-display leading-none text-fg">X</div>
+            <div className="mt-5 flex justify-center gap-2">
+              {reasons.map((r) => (
+                <div key={r.label} className="flex flex-col items-center gap-1 rounded-xl border border-border bg-surface-1 px-3 py-2">
+                  <r.Icon size={18} className="text-accent" strokeWidth={1.9} />
+                  <span className="text-micro font-bold text-fg">{r.label}</span>
+                  <span className="text-[0.7rem] text-fg-dim" style={{ wordBreak: "keep-all" }}>{r.body}</span>
+                </div>
+              ))}
             </div>
-            <div className="mt-4 text-caption text-fg-muted">슈퍼앱 비전 · 결제 DNA</div>
           </div>
         </Reveal>
       </div>
 
-      {hasVotes && (
-        <Reveal delay={0.45}>
-          <p className="mt-10 text-center text-h3 leading-snug text-pretty">
+      {/* Scenario message */}
+      {total > 0 && (
+        <Reveal delay={0.4}>
+          <p className="mt-9 text-center text-h3 leading-snug text-pretty" style={{ wordBreak: "keep-all" }}>
             {match ? (
               <>
-                의견이 <span className="font-bold text-stable">일치</span>합니다 —
-                시장도 슈퍼앱 비전에 같은 기대를 걸고 있다는 신호.
+                의견이 <span className="font-bold text-stable">일치</span>합니다 — 시장도{" "}
+                <span className="font-semibold text-fg">직접 금융·슈퍼앱 비전</span>에 같은 베팅을 걸고 있다는 신호.
+              </>
+            ) : winner === "tie" ? (
+              <>
+                <span className="font-bold text-fg">팽팽한 동률</span> — 고위험·상방(X)과 저위험·방어(Apple) 사이, 시장의 고민이 그대로 드러납니다.
               </>
             ) : (
               <>
-                의견이 <span className="font-bold text-fg">엇갈렸습니다</span> —
-                시장이 보는 매력 포인트가 어디에서 다른지가 흥미로운 질문.
+                의견이 <span className="font-bold text-fg">엇갈렸습니다</span> — 청중은{" "}
+                <span className="font-semibold" style={{ color: companyMap.apple.color }}>저위험·접점 통제(Apple)</span>를, 우리는{" "}
+                <span className="font-semibold text-accent">고위험·성장 상방(X)</span>을 택했습니다. 어느 리스크를 감수할 것인가의 차이.
               </>
             )}
           </p>
@@ -109,7 +136,7 @@ const Slide: SlideComponent = () => {
   );
 };
 
-Slide.meta = { id: "comparison", title: "Audience vs Us", section: "05" };
+Slide.meta = { id: "comparison", title: "Audience vs Us", section: "04" };
 Slide.steps = 0;
 
 export default Slide;
