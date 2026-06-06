@@ -113,11 +113,6 @@ const Slide: SlideComponent = ({ step }) => {
         ))}
       </div>
 
-      <Reveal delay={won ? 0.7 : 0.3}>
-        <p className="mt-4 text-center text-caption text-fg-dim" style={{ wordBreak: "keep-all" }}>
-          Samsung의 Knox 보안은 세계 최고지만 — 그것만으로 <span className="font-semibold text-fg-muted">반복 수익</span>을 만들지 못했다.
-        </p>
-      </Reveal>
     </SlideShell>
   );
 };

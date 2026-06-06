@@ -6,7 +6,6 @@ import { SlideComponent } from "@/deck/types";
 import { BitcoinLogo, EthereumLogo } from "@/visuals/Logos";
 import { useUpbitPrice, type UpbitInfo } from "@/lib/useUpbitPrice";
 
-const MARKETS = ["KRW-BTC", "KRW-ETH"];
 const UP = "var(--color-warn)"; // 상승 (KR 관례: 빨강)
 const DOWN = "#2563eb"; // 하락 (파랑)
 
@@ -129,7 +128,7 @@ function LivePrice({ info, brand }: { info?: UpbitInfo; brand: string }) {
 }
 
 const Slide: SlideComponent = ({ step }) => {
-  const prices = useUpbitPrice(MARKETS);
+  const prices = useUpbitPrice();
 
   return (
     <SlideShell section="01 · Crypto 생태계 이해" title="비트코인과 이더리움" accent="accent">

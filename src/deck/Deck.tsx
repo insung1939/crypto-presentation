@@ -1,12 +1,19 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { slides } from "@/slides";
+import { startUpbitPolling } from "@/lib/useUpbitPrice";
 import { useDeckNav } from "./useDeckNav";
 import { ProgressBar } from "./ProgressBar";
 import { HintOverlay } from "./HintOverlay";
 
 export function Deck() {
   const total = slides.length;
+
+  // Prefetch live BTC/ETH prices from the very first slide so slide 3
+  // shows them instantly (cached) and then keeps updating live.
+  useEffect(() => {
+    startUpbitPolling();
+  }, []);
 
   const stepsFor = useMemo(
     () => (i: number) => slides[i]?.steps ?? 0,

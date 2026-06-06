@@ -120,9 +120,9 @@ const Slide: SlideComponent = ({ step }) => {
       </div>
 
       {/* Step 3 — conclusion (reveal on step ≥ 2) */}
-      <Reveal when={step >= 2} delay={0.1}>
+      <Reveal when={step >= 2} delay={0.1} className="mt-auto pt-6">
         <div
-          className="mt-auto rounded-2xl border-2 px-7 py-5"
+          className="rounded-2xl border-2 px-7 py-5"
           style={{
             borderColor: "color-mix(in srgb, var(--color-accent) 38%, transparent)",
             background: "color-mix(in srgb, var(--color-accent) 7%, transparent)",
