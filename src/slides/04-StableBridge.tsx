@@ -156,7 +156,10 @@ const Slide: SlideComponent = ({ step }) => {
     <SlideShell
       section="01 · Crypto 생태계 이해"
       title={
-        <span style={{ wordBreak: "keep-all" }}>
+        <span
+          className="block text-[clamp(1.6rem,2.7vw,2.6rem)] leading-[1.2]"
+          style={{ wordBreak: "keep-all" }}
+        >
           스테이블코인 —{" "}
           <span className="text-stable">Crypto를 일상으로 연결하는 디지털 결제 인프라</span>
         </span>
