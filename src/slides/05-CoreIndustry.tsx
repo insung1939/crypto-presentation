@@ -9,7 +9,7 @@ import { SlideComponent } from "@/deck/types";
 const flow = [
   {
     Icon: TrendingUp,
-    title: "성숙한 Crypto 시장",
+    title: "성숙한 Crypto <br/> 시장",
     body: "시장은 이미 상당한 성숙 단계에 진입",
     color: "var(--color-eth)",
   },
@@ -42,18 +42,37 @@ const Slide: SlideComponent = ({ step }) => {
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + i * 0.18, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  delay: 0.15 + i * 0.18,
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="flex flex-1 flex-col rounded-3xl border bg-surface-1 px-7 py-9"
-                style={{ borderColor: `color-mix(in srgb, ${f.color} 30%, transparent)` }}
+                style={{
+                  borderColor: `color-mix(in srgb, ${f.color} 30%, transparent)`,
+                }}
               >
                 <div
                   className="flex h-14 w-14 items-center justify-center rounded-2xl"
-                  style={{ background: `color-mix(in srgb, ${f.color} 15%, transparent)`, color: f.color }}
+                  style={{
+                    background: `color-mix(in srgb, ${f.color} 15%, transparent)`,
+                    color: f.color,
+                  }}
                 >
                   <f.Icon size={28} strokeWidth={1.9} />
                 </div>
-                <div className="mt-5 text-h2 font-bold leading-tight text-fg">{f.title}</div>
-                <div className="mt-3 text-lead text-fg-muted leading-snug" style={{ wordBreak: "keep-all" }}>
+                <div className="mt-5 text-h2 font-bold leading-tight text-fg">
+                  {f.title.split(/<br\s*\/?>/i).map((part, idx, arr) => (
+                    <Fragment key={idx}>
+                      {part.trim()}
+                      {idx < arr.length - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </div>
+                <div
+                  className="mt-3 text-lead text-fg-muted leading-snug"
+                  style={{ wordBreak: "keep-all" }}
+                >
                   {f.body}
                 </div>
               </motion.div>
@@ -64,7 +83,11 @@ const Slide: SlideComponent = ({ step }) => {
                   transition={{ delay: 0.3 + i * 0.18 }}
                   className="flex shrink-0 items-center"
                 >
-                  <ChevronRight size={30} className="text-fg-faint" strokeWidth={2.2} />
+                  <ChevronRight
+                    size={30}
+                    className="text-fg-faint"
+                    strokeWidth={2.2}
+                  />
                 </motion.div>
               )}
             </Fragment>
@@ -73,7 +96,10 @@ const Slide: SlideComponent = ({ step }) => {
 
         {/* teaser → next slide answers it */}
         <Reveal delay={0.75}>
-          <p className="mt-14 text-center text-h2 font-bold text-fg" style={{ wordBreak: "keep-all" }}>
+          <p
+            className="mt-14 text-center text-h2 font-bold text-fg"
+            style={{ wordBreak: "keep-all" }}
+          >
             그렇다면,{" "}
             <Highlight when={step >= 1} color="var(--color-accent)" delay={0.2}>
               누가
