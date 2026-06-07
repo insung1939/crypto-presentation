@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
+import { TrendingDown, Droplets, Network, ArrowDown } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
-import { TrendingDown, Droplets, Network } from "lucide-react";
 import { MetaLogo, XLogo } from "@/visuals/Logos";
 
 type Scenario = {
@@ -44,8 +45,6 @@ const scenarios: Scenario[] = [
   },
 ];
 
-const COLS = "grid grid-cols-[16rem_1fr_1fr] gap-5";
-
 const Slide: SlideComponent = () => {
   return (
     <SlideShell
@@ -53,67 +52,81 @@ const Slide: SlideComponent = () => {
       title="Black Swan Stress Test — Meta vs X"
       accent="accent"
     >
-      {/* header */}
+      {/* TOP — scenario & accounting-metric definitions */}
       <Reveal>
-        <div className={`${COLS} items-center pb-2`}>
-          <span className="text-eyebrow text-fg-dim">위기 시나리오 · 회계지표</span>
-          <div className="flex items-center gap-3">
-            <MetaLogo size={34} />
+        <div className="mb-2 text-eyebrow text-fg-dim">위기 시나리오 · 흔들리는 회계지표</div>
+      </Reveal>
+      <div className="grid grid-cols-3 gap-4">
+        {scenarios.map((s, i) => (
+          <motion.div
+            key={s.n}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 + i * 0.12, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-2xl border border-border bg-surface-1 px-5 py-4"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "var(--tint-accent)", color: "var(--color-accent)" }}>
+                <s.Icon size={17} strokeWidth={1.9} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-body font-bold leading-none text-fg">{s.name}</span>
+                <span className="mt-0.5 text-micro text-fg-dim">{s.trigger}</span>
+              </div>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {s.metrics.map((m) => (
+                <span key={m} className="rounded-md border border-border bg-bg-soft px-2 py-0.5 font-mono text-micro text-fg-muted">
+                  {m}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* divider */}
+      <Reveal delay={0.5}>
+        <div className="my-4 flex items-center justify-center gap-2 text-caption font-semibold text-fg-dim">
+          <motion.span animate={{ y: [0, 4, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
+            <ArrowDown size={20} className="text-accent" strokeWidth={2.2} />
+          </motion.span>
+          시나리오별 기업 재무 영향
+        </div>
+      </Reveal>
+
+      {/* BOTTOM — per-company analysis, scenario by scenario */}
+      <div className="flex flex-1 flex-col">
+        {/* header */}
+        <div className="grid grid-cols-[8.5rem_1fr_1fr] items-center gap-4 pb-2">
+          <span />
+          <div className="flex items-center gap-2">
+            <MetaLogo size={28} />
             <span className="text-h3 font-bold">Meta</span>
             <span className="text-micro text-fg-dim">유통 채널 구조</span>
           </div>
-          <div className="flex items-center gap-3">
-            <XLogo size={34} />
+          <div className="flex items-center gap-2">
+            <XLogo size={28} />
             <span className="text-h3 font-bold">X</span>
             <span className="text-micro text-accent">직접 운영 구조</span>
           </div>
         </div>
-      </Reveal>
 
-      {/* big rows fill the slide */}
-      <div className="flex flex-1 flex-col">
         {scenarios.map((s, i) => (
-          <Reveal key={s.n} delay={0.2 + i * 0.14} className="flex-1">
-            <div className={`${COLS} h-full items-stretch border-t border-border py-4`}>
-              {/* scenario + accounting metrics */}
+          <Reveal key={s.n} delay={0.6 + i * 0.12}>
+            <div className="grid grid-cols-[8.5rem_1fr_1fr] items-stretch gap-4 border-t border-border py-3">
               <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="flex h-9 w-9 items-center justify-center rounded-lg"
-                    style={{ background: "var(--tint-accent)", color: "var(--color-accent)" }}
-                  >
-                    <s.Icon size={18} strokeWidth={1.9} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-h3 font-bold leading-none text-fg">{s.name}</span>
-                    <span className="mt-1 text-caption text-fg-dim">{s.trigger}</span>
-                  </div>
-                </div>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {s.metrics.map((m) => (
-                    <span
-                      key={m}
-                      className="rounded-md border border-border bg-bg-soft px-2 py-0.5 font-mono text-micro text-fg-muted"
-                    >
-                      {m}
-                    </span>
-                  ))}
-                </div>
+                <span className="font-mono text-caption font-bold text-fg-faint">{s.n}</span>
+                <span className="text-caption font-bold text-fg leading-tight" style={{ wordBreak: "keep-all" }}>
+                  {s.name}
+                </span>
               </div>
-
-              {/* Meta */}
-              <div className="flex items-center rounded-2xl border border-border bg-surface-1 px-6 text-lead leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
+              <div className="flex items-center rounded-xl border border-border bg-surface-1 px-4 py-2.5 text-caption leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
                 {s.meta}
               </div>
-
-              {/* X — emphasized */}
               <div
-                className="flex items-center rounded-2xl border-2 px-6 text-lead font-medium leading-snug text-fg"
-                style={{
-                  wordBreak: "keep-all",
-                  borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)",
-                  background: "color-mix(in srgb, var(--color-accent) 5%, transparent)",
-                }}
+                className="flex items-center rounded-xl border px-4 py-2.5 text-caption leading-snug text-fg"
+                style={{ wordBreak: "keep-all", borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)", background: "color-mix(in srgb, var(--color-accent) 5%, transparent)" }}
               >
                 {s.x}
               </div>
