@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, AlertCircle, Rocket, ChevronRight } from "lucide-react";
 import { SlideShell } from "@/deck/SlideShell";
@@ -37,12 +38,12 @@ const Slide: SlideComponent = ({ step }) => {
         {/* logical flow */}
         <div className="flex items-stretch gap-4">
           {flow.map((f, i) => (
-            <div key={f.title} className="flex flex-1 items-center gap-4">
+            <Fragment key={f.title}>
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 + i * 0.18, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="flex-1 rounded-3xl border bg-surface-1 px-7 py-9"
+                className="flex flex-1 flex-col rounded-3xl border bg-surface-1 px-7 py-9"
                 style={{ borderColor: `color-mix(in srgb, ${f.color} 30%, transparent)` }}
               >
                 <div
@@ -61,11 +62,12 @@ const Slide: SlideComponent = ({ step }) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 + i * 0.18 }}
+                  className="flex shrink-0 items-center"
                 >
                   <ChevronRight size={30} className="text-fg-faint" strokeWidth={2.2} />
                 </motion.div>
               )}
-            </div>
+            </Fragment>
           ))}
         </div>
 
