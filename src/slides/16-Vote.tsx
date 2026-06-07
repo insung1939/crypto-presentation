@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { motion } from "framer-motion";
 import { SlideShell } from "@/deck/SlideShell";
@@ -27,6 +27,83 @@ function Count({ value }: { value: number }) {
     >
       {value}
     </motion.span>
+  );
+}
+
+/* ───────── 30s vote countdown → auto-advance ───────── */
+function Countdown({ seconds = 30, onEnd }: { seconds?: number; onEnd: () => void }) {
+  const [remaining, setRemaining] = useState(seconds);
+  const endedRef = useRef(false);
+
+  useEffect(() => {
+    const id = setInterval(() => setRemaining((r) => (r <= 1 ? 0 : r - 1)), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (remaining === 0 && !endedRef.current) {
+      endedRef.current = true;
+      const t = setTimeout(onEnd, 1400);
+      return () => clearTimeout(t);
+    }
+  }, [remaining, onEnd]);
+
+  const R = 42;
+  const C = 2 * Math.PI * R;
+  const closed = remaining === 0;
+  const urgent = remaining <= 5 && !closed;
+  const ringColor = closed || urgent ? "var(--color-warn)" : "var(--color-accent)";
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative h-[116px] w-[116px]">
+        <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+          <circle cx="50" cy="50" r={R} fill="none" stroke="var(--color-surface-2)" strokeWidth="8" />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r={R}
+            fill="none"
+            stroke={ringColor}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            initial={{ strokeDashoffset: 0 }}
+            animate={{ strokeDashoffset: C }}
+            transition={{ duration: seconds, ease: "linear" }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          {closed ? (
+            <motion.span
+              initial={{ scale: 0, rotate: -12 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 240, damping: 12 }}
+              className="text-[1.3rem] font-extrabold text-warn"
+            >
+              마감
+            </motion.span>
+          ) : (
+            <motion.span
+              key={remaining}
+              initial={{ scale: urgent ? 1.5 : 1.2, opacity: 0.5 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="font-mono text-[2.6rem] font-bold tabular-nums"
+              style={{ color: urgent ? "var(--color-warn)" : "var(--color-fg)" }}
+            >
+              {remaining}
+            </motion.span>
+          )}
+        </div>
+      </div>
+      <div
+        className="mt-2 text-micro font-semibold"
+        style={{ color: closed ? "var(--color-warn)" : "var(--color-fg-dim)" }}
+      >
+        {closed ? "투표가 마감되었습니다" : "투표 마감까지"}
+      </div>
+    </div>
   );
 }
 
@@ -77,6 +154,10 @@ const Slide: SlideComponent = () => {
             <div className="mt-5 text-eyebrow text-accent">SCAN TO VOTE</div>
             <div className="mt-2 font-mono text-micro text-fg-dim">
               {voteUrl.replace(/^https?:\/\//, "")}
+            </div>
+
+            <div className="mt-6">
+              <Countdown seconds={30} onEnd={() => window.dispatchEvent(new Event("deck:next"))} />
             </div>
           </div>
         </Reveal>

@@ -77,6 +77,13 @@ export function useDeckNav({ total, stepsFor }: Args) {
     [total],
   );
 
+  // Allow slides to programmatically advance (e.g. vote-timer auto-advance).
+  useEffect(() => {
+    const onNext = () => next();
+    window.addEventListener("deck:next", onNext as EventListener);
+    return () => window.removeEventListener("deck:next", onNext as EventListener);
+  }, [next]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;

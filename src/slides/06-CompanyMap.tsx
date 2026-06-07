@@ -10,6 +10,7 @@ type Co = {
   name: string;
   Logo: (p: { size?: number }) => JSX.Element;
   color: string;
+  cap: string;
   projects: Proj[];
 };
 type Group = { label: string; axis: string; tint: string; members: Co[] };
@@ -24,6 +25,7 @@ const groups: Group[] = [
         name: "Meta",
         Logo: MetaLogo,
         color: "#0866FF",
+        cap: "D",
         projects: [
           { t: "USDC 크리에이터 정산 파일럿", logo: "/brand/usdc.svg" },
           { t: "소셜커머스 결제 레이어" },
@@ -33,6 +35,7 @@ const groups: Group[] = [
         name: "X",
         Logo: XLogo,
         color: "#111827",
+        cap: "M",
         projects: [
           { t: "X Money — P2P 송금·예치 결제 인프라" },
           { t: "Smart Cashtags · XChat 결제" },
@@ -49,6 +52,7 @@ const groups: Group[] = [
         name: "Samsung",
         Logo: SamsungLogo,
         color: "#1428A0",
+        cap: "I",
         projects: [
           { t: "Blockchain Keystore · Wallet" },
           { t: "Knox 기반 개인키 보안 인프라" },
@@ -58,6 +62,7 @@ const groups: Group[] = [
         name: "Apple",
         Logo: AppleLogo,
         color: "#1d1d1f",
+        cap: "T",
         projects: [
           { t: "Apple Wallet / Apple Pay", logo: "/brand/applepay.svg" },
           { t: "NFC · Secure Element API" },
@@ -112,6 +117,13 @@ const Slide: SlideComponent = () => {
                     <div className="flex items-center gap-3 border-b border-border pb-3">
                       <m.Logo size={40} />
                       <span className="text-h3 font-bold leading-none text-fg">{m.name}</span>
+                      <span
+                        className="ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-caption font-bold"
+                        style={{ background: `color-mix(in srgb, ${g.tint} 14%, transparent)`, color: g.tint }}
+                        title="Distribution / Monetization / Trust / Interface"
+                      >
+                        {m.cap}
+                      </span>
                     </div>
 
                     <div className="mt-3 flex flex-1 flex-col justify-center gap-2.5">

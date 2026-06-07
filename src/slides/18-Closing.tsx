@@ -2,8 +2,15 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
 
-// 팀원 이름 — 받는 대로 채우면 마지막 줄에 자동 표시됨
-const members: string[] = [];
+// 팀원 이름 — 마지막 줄에 한 줄로 표시
+const members: string[] = [
+  "김송미",
+  "김현준",
+  "배선익",
+  "서세현",
+  "이강병",
+  "조인성",
+];
 
 const Slide: SlideComponent = () => (
   <div className="relative grain-bg flex h-full w-full flex-col items-center justify-center overflow-hidden bg-bg px-[7vw]">
