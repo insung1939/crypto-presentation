@@ -53,9 +53,14 @@ const Slide: SlideComponent = () => (
 
       <Reveal delay={0.9}>
         <div className="mt-12 flex flex-col items-center gap-5">
-          <div className="rounded-full border border-accent/40 bg-accent/[0.08] px-7 py-2.5 text-h2 font-bold text-accent">
-            9조
-          </div>
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.95 }}
+            className="rounded-2xl border-2 border-accent bg-accent/[0.1] px-9 py-3 text-h1 font-extrabold text-accent"
+          >
+            발표 9조
+          </motion.div>
           {members.length > 0 && (
             <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
               {members.map((name, i) => (

@@ -92,8 +92,18 @@ const Slide: SlideComponent = ({ step }) => {
       {/* Title */}
       <div className="relative z-10 max-w-[68rem] text-center">
         <Reveal>
-          <div className="text-eyebrow text-fg-dim">
-            KAIST DFMBA · 재무회계 기말 발표 · 9조
+          <div className="flex flex-col items-center gap-3">
+            <motion.span
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 16 }}
+              className="rounded-full border-2 border-accent bg-accent/[0.1] px-7 py-2 text-h3 font-extrabold tracking-wide text-accent"
+            >
+              발표 9조
+            </motion.span>
+            <div className="text-eyebrow text-fg-dim">
+              KAIST DFMBA · 재무회계 기말 발표
+            </div>
           </div>
         </Reveal>
 
