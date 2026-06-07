@@ -118,6 +118,18 @@ const Slide: SlideComponent = ({ step }) => {
           </p>
         </Reveal>
       </div>
+
+      {/* team footer */}
+      <motion.div
+        className="absolute inset-x-0 bottom-[6vh] z-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-caption text-fg-dim"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <span className="font-semibold text-fg-muted">9조</span>
+        <span className="text-fg-faint">·</span>
+        <span>김송미 · 김현준 · 배선익 · 서세현 · 이강병 · 조인성</span>
+      </motion.div>
     </div>
   );
 };
