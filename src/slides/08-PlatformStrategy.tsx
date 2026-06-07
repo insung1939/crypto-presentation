@@ -5,13 +5,22 @@ import { FocusDim } from "@/motion/FocusDim";
 import { SlideComponent } from "@/deck/types";
 import { MetaLogo, XLogo } from "@/visuals/Logos";
 
-type Row = { label: string; meta: string; x: string };
+type Row = {
+  label: string;
+  meta: string;
+  x: string;
+  /** delimiter to line-break the cell at (first occurrence) */
+  sep?: string;
+  headBold?: boolean;
+};
 
 const rows: Row[] = [
   {
     label: "전략",
     meta: "규제 회피 · 유통망 집중 — 라이선스 실패 후 규제비용을 외부화하고 보수적으로 재진입",
     x: "직접 금융 인프라 구축 — 인수 → 라이선스 확보 → 금융서비스로 확장",
+    sep: "—",
+    headBold: true,
   },
   {
     label: "사업구조",
@@ -22,23 +31,30 @@ const rows: Row[] = [
     label: "강점",
     meta: "30억+ 이용자(Facebook·Instagram·WhatsApp) → 광고 수익화 연결성",
     x: "직접 금융 인프라 구축력 → 슈퍼앱 확장성 (결제→크립토→투자→대출→송금)",
+    sep: "→",
+    headBold: true,
   },
   {
     label: "한계",
     meta: "결제+광고 데이터 결합 규제 · 스테이블코인 발행 관련 규제 노출",
     x: "직접 금융 수익화 난도 · 서구권 Product-Market Fit 미검증",
+    sep: "·",
+    headBold: false,
   },
 ];
 
-/** Break a cell at "—": headline (bold) on its own line, detail below. */
-function CellText({ text }: { text: string }) {
-  const idx = text.indexOf("—");
+/** Break a cell at `sep` (first occurrence): optional bold headline, detail below. */
+function CellText({ text, sep, headBold }: { text: string; sep?: string; headBold?: boolean }) {
+  if (!sep) return <>{text}</>;
+  const idx = text.indexOf(sep);
   if (idx === -1) return <>{text}</>;
+  const head = text.slice(0, idx).trim();
+  const rest = text.slice(idx + sep.length).trim();
   return (
     <>
-      <span className="font-bold text-fg">{text.slice(0, idx).trim()}</span>
+      {headBold ? <span className="font-bold text-fg">{head}</span> : head}
       <br />
-      {text.slice(idx + 1).trim()}
+      {rest}
     </>
   );
 }
@@ -92,7 +108,7 @@ const Slide: SlideComponent = ({ step }) => {
                       : "var(--color-border)",
                   }}
                 >
-                  <CellText text={r.meta} />
+                  <CellText text={r.meta} sep={r.sep} headBold={r.headBold} />
                 </motion.div>
                 <motion.div
                   className="rounded-2xl border bg-surface-1 px-5 py-3.5 text-body leading-snug text-fg"
@@ -106,7 +122,7 @@ const Slide: SlideComponent = ({ step }) => {
                       : "var(--color-surface-1)",
                   }}
                 >
-                  <CellText text={r.x} />
+                  <CellText text={r.x} sep={r.sep} headBold={r.headBold} />
                 </motion.div>
               </div>
             </FocusDim>
