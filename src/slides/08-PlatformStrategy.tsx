@@ -30,6 +30,19 @@ const rows: Row[] = [
   },
 ];
 
+/** Break a cell at "—": headline (bold) on its own line, detail below. */
+function CellText({ text }: { text: string }) {
+  const idx = text.indexOf("—");
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      <span className="font-bold text-fg">{text.slice(0, idx).trim()}</span>
+      <br />
+      {text.slice(idx + 1).trim()}
+    </>
+  );
+}
+
 const Slide: SlideComponent = ({ step }) => {
   const focused = (i: number) => step === 0 || step - 1 === i;
 
@@ -79,7 +92,7 @@ const Slide: SlideComponent = ({ step }) => {
                       : "var(--color-border)",
                   }}
                 >
-                  {r.meta}
+                  <CellText text={r.meta} />
                 </motion.div>
                 <motion.div
                   className="rounded-2xl border bg-surface-1 px-5 py-3.5 text-body leading-snug text-fg"
@@ -93,7 +106,7 @@ const Slide: SlideComponent = ({ step }) => {
                       : "var(--color-surface-1)",
                   }}
                 >
-                  {r.x}
+                  <CellText text={r.x} />
                 </motion.div>
               </div>
             </FocusDim>

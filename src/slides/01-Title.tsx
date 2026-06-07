@@ -115,9 +115,9 @@ const Slide: SlideComponent = ({ step }) => {
 
         <Reveal delay={0.5} duration={0.9}>
           <p className="mt-7 text-h2 font-semibold text-fg-muted text-balance">
-            Crypto 생태계와{" "}
+            Crypto 생태계 성숙에 따른{" "}
             <Highlight when={step >= 1} color="var(--color-accent)" delay={0.3}>
-              Big Tech의 사업 기회
+              선도기업 선정
             </Highlight>
           </p>
         </Reveal>
