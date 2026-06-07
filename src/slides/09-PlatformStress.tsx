@@ -48,16 +48,17 @@ const scenarios: Scenario[] = [
 const compareRows = scenarios.filter((s) => s.n !== "S1"); // Meta vs X = S2·S3
 const COLS = "grid grid-cols-[12rem_1fr_1fr] gap-5";
 
-/** Line-break a cell at the first "→" (arrow leads the consequence on line 2). */
+/** Line-break a cell at the first "→" (arrow leads the consequence on line 2).
+ *  Wrapped in a block div so <br/> works inside the flex (items-center) cell. */
 function arrowBreak(text: string) {
   const idx = text.indexOf("→");
-  if (idx === -1) return text;
+  if (idx === -1) return <div>{text}</div>;
   return (
-    <>
+    <div>
       {text.slice(0, idx).trim()}
       <br />
-      <span className="text-accent">→</span> {text.slice(idx + 1).trim()}
-    </>
+      <span className="font-semibold text-accent">→</span> {text.slice(idx + 1).trim()}
+    </div>
   );
 }
 
