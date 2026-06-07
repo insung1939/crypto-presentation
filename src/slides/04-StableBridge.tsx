@@ -4,7 +4,12 @@ import { SlideShell } from "@/deck/SlideShell";
 import { Reveal } from "@/motion/Reveal";
 import { Highlight } from "@/motion/Highlight";
 import { SlideComponent } from "@/deck/types";
-import { BitcoinLogo, EthereumLogo, TetherLogo, UsdcLogo } from "@/visuals/Logos";
+import {
+  BitcoinLogo,
+  EthereumLogo,
+  TetherLogo,
+  UsdcLogo,
+} from "@/visuals/Logos";
 
 /* ───────── Hero: BTC ↔ Stablecoin ↔ ETH connection ───────── */
 
@@ -31,7 +36,12 @@ function ConnectionHero() {
           boxShadow: "0 0 14px var(--color-btc)",
         }}
         animate={{ left: ["18%", "50%"], opacity: [0, 1, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.6,
+        }}
       />
       <motion.div
         aria-hidden
@@ -42,7 +52,12 @@ function ConnectionHero() {
           boxShadow: "0 0 14px var(--color-eth)",
         }}
         animate={{ right: ["18%", "50%"], opacity: [0, 1, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.3 }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.3,
+        }}
       />
 
       <div className="relative flex w-full items-center justify-between px-[10%]">
@@ -61,7 +76,12 @@ function ConnectionHero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.45, type: "spring", stiffness: 180, damping: 16 }}
+          transition={{
+            delay: 0.45,
+            type: "spring",
+            stiffness: 180,
+            damping: 16,
+          }}
           className="relative flex flex-col items-center gap-2"
         >
           <motion.div
@@ -156,11 +176,11 @@ const Slide: SlideComponent = ({ step }) => {
     <SlideShell
       section="01 · Crypto 생태계 이해"
       title={
-        <span
-          className="block whitespace-nowrap text-[clamp(1.25rem,2.5vw,2.15rem)] leading-[1.2]"
-        >
+        <span className="block whitespace-nowrap text-[clamp(1.25rem,2.5vw,2.15rem)] leading-[1.2]">
           스테이블코인 —{" "}
-          <span className="text-stable">Crypto를 일상으로 연결하는 디지털 결제 인프라</span>
+          <span className="text-stable">
+            Crypto를 일상으로 연결하는 디지털 결제 인프라
+          </span>
         </span>
       }
       accent="stable"
@@ -177,7 +197,10 @@ const Slide: SlideComponent = ({ step }) => {
           asset="BTC"
           points={[
             { lead: "기준통화", body: "— USDT·USDC는 BTC 거래의 기준" },
-            { lead: "유동화 기초자산", body: "— BTC 담보 등을 통해 가치를 현금화" },
+            {
+              lead: "유동화 기초자산",
+              body: "— BTC 담보 등을 통해 가치를 현금화",
+            },
           ]}
         />
         <LinkCard
@@ -186,8 +209,14 @@ const Slide: SlideComponent = ({ step }) => {
           Logo={EthereumLogo}
           asset="ETH"
           points={[
-            { lead: "발행·유통 인프라", body: "— USDT·USDC는 ETH network상에서 구현" },
-            { lead: "DeFi 핵심수단", body: "— 결제 · 담보 · 유동성 공급의 기본 화폐" },
+            {
+              lead: "발행·유통 인프라",
+              body: "— USDT·USDC는 ETH network상에서 구현",
+            },
+            {
+              lead: "DeFi 핵심수단",
+              body: "— 결제 · 담보 · 유동성 공급의 기본 화폐",
+            },
           ]}
         />
       </div>
@@ -197,8 +226,10 @@ const Slide: SlideComponent = ({ step }) => {
         <div
           className="relative mt-7 overflow-hidden rounded-3xl border-2 px-7 py-6"
           style={{
-            borderColor: "color-mix(in srgb, var(--color-accent) 35%, transparent)",
-            background: "color-mix(in srgb, var(--color-accent) 7%, transparent)",
+            borderColor:
+              "color-mix(in srgb, var(--color-accent) 35%, transparent)",
+            background:
+              "color-mix(in srgb, var(--color-accent) 7%, transparent)",
           }}
         >
           <motion.div
@@ -215,11 +246,12 @@ const Slide: SlideComponent = ({ step }) => {
             className="relative mt-2 text-h2 font-semibold leading-snug text-fg text-pretty"
             style={{ wordBreak: "keep-all" }}
           >
-            Crypto 생태계의 실용화를 위해서는,{" "}
+            Crypto 생태계의 실용화를 위해서는,
+            <br />
             <Highlight when={step >= 1} color="var(--color-accent)" delay={0.2}>
               플랫폼 · 기기 · APP 생태계
             </Highlight>
-            에 편입이 필요하다.
+            에 편입이 필요
           </p>
         </div>
       </Reveal>

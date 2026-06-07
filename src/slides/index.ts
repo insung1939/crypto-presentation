@@ -5,6 +5,7 @@ import S02 from "./02-Agenda";
 import S03 from "./03-Ecosystem";
 import S04 from "./04-StableBridge";
 import S05 from "./05-CoreIndustry";
+import S05b from "./05b-BigTechRole";
 import S06 from "./06-CompanyMap";
 import S07 from "./07-PlatformTimeline";
 import S08 from "./08-PlatformStrategy";
@@ -23,6 +24,6 @@ import S18 from "./18-Closing";
 // Part 1 생태계(03-04) · Part 2 주요사업(05-06) · Part 3A Meta vs X(07-10)
 // · Part 3B Samsung vs Apple(11-14) · Part 4 최종선정(15-17) · Q&A(18).
 export const slides: SlideComponent[] = [
-  S01, S02, S03, S04, S05, S06, S07, S08, S09,
+  S01, S02, S03, S04, S05, S05b, S06, S07, S08, S09,
   S10, S11, S12, S13, S14, S15, S16, S17, S18,
 ];

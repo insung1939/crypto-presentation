@@ -31,9 +31,17 @@ const cols: AssetCol[] = [
     color: "var(--color-btc)",
     Logo: BitcoinLogo,
     rows: [
-      { k: "정의", v: "탈중앙화된 디지털 가치저장 자산", sub: "가치저장 · 투자 · 담보 · 인플레이션 헤지" },
+      {
+        k: "정의",
+        v: "탈중앙화된 디지털 가치저장 자산",
+        sub: "가치저장 · 투자 · 담보 · 인플레이션 헤지",
+      },
       { k: "기원", v: "2009 · 사토시 나카모토", sub: "최초의 가상자산" },
-      { k: "현황", v: "시가총액 약 1조 2,100억 달러", sub: "약 1,600조 원 · 제도권 편입 중인 ‘디지털 금’" },
+      {
+        k: "현황",
+        v: "시가총액 약 1조 2,100억 달러",
+        sub: "약 1,600조 원 · 제도권 편입 중인 ‘디지털 금’",
+      },
     ],
     cap: "가상자산 시장의 신뢰 · 유동성 기준점",
   },
@@ -45,9 +53,17 @@ const cols: AssetCol[] = [
     color: "var(--color-eth)",
     Logo: EthereumLogo,
     rows: [
-      { k: "정의", v: "스마트컨트랙트 기반 블록체인 플랫폼", sub: "dApp · 토큰 발행 · 금융 자동화 · 결제 인프라" },
+      {
+        k: "정의",
+        v: "스마트컨트랙트 기반 블록체인 플랫폼",
+        sub: "dApp · 토큰 발행 · 금융 자동화 · 결제 인프라",
+      },
       { k: "기원", v: "2015 · 비탈릭 부테린", sub: "프로그래머블 블록체인" },
-      { k: "현황", v: "시가총액 약 1,880억 달러", sub: "약 260조 원 · 스테이블코인 공급의 절반 이상 호스팅" },
+      {
+        k: "현황",
+        v: "시가총액 약 1,880억 달러",
+        sub: "약 260조 원 · 스테이블코인 공급의 절반 이상 호스팅",
+      },
     ],
     cap: "가상자산 서비스가 실제 작동하는 기술 · 금융 인프라",
   },
@@ -86,8 +102,15 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
 
 /* ───────── live price panel ───────── */
 function LivePrice({ info, brand }: { info?: UpbitInfo; brand: string }) {
-  const trend = !info ? "var(--color-fg-dim)" : info.change === "RISE" ? UP : info.change === "FALL" ? DOWN : "var(--color-fg-dim)";
-  const arrow = info?.change === "RISE" ? "▲" : info?.change === "FALL" ? "▼" : "·";
+  const trend = !info
+    ? "var(--color-fg-dim)"
+    : info.change === "RISE"
+      ? UP
+      : info.change === "FALL"
+        ? DOWN
+        : "var(--color-fg-dim)";
+  const arrow =
+    info?.change === "RISE" ? "▲" : info?.change === "FALL" ? "▼" : "·";
   return (
     <div className="rounded-2xl border border-border bg-bg-soft px-4 py-3">
       <div className="flex items-center justify-between">
@@ -100,7 +123,10 @@ function LivePrice({ info, brand }: { info?: UpbitInfo; brand: string }) {
           실시간 · Upbit
         </span>
         {info ? (
-          <span className="font-mono text-caption font-bold" style={{ color: trend }}>
+          <span
+            className="font-mono text-caption font-bold"
+            style={{ color: trend }}
+          >
             {arrow} {Math.abs(info.changeRate * 100).toFixed(2)}%
           </span>
         ) : (
@@ -121,7 +147,12 @@ function LivePrice({ info, brand }: { info?: UpbitInfo; brand: string }) {
         ) : (
           <span className="font-mono text-h3 font-bold text-fg-faint">₩—</span>
         )}
-        {info && info.spark.length > 1 && <Sparkline data={info.spark} color={trend === "var(--color-fg-dim)" ? brand : trend} />}
+        {info && info.spark.length > 1 && (
+          <Sparkline
+            data={info.spark}
+            color={trend === "var(--color-fg-dim)" ? brand : trend}
+          />
+        )}
       </div>
     </div>
   );
@@ -131,22 +162,36 @@ const Slide: SlideComponent = ({ step }) => {
   const prices = useUpbitPrice();
 
   return (
-    <SlideShell section="01 · Crypto 생태계 이해" title="비트코인과 이더리움" accent="accent">
+    <SlideShell
+      section="01 · Crypto 생태계 이해"
+      title="비트코인과 이더리움"
+      accent="accent"
+    >
       <div className="grid flex-1 grid-cols-2 gap-6">
         {cols.map((c, ci) => (
           <motion.div
             key={c.key}
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + ci * 0.14, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              delay: 0.15 + ci * 0.14,
+              duration: 0.75,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="relative flex h-full flex-col overflow-hidden rounded-3xl border bg-surface-1 p-7"
-            style={{ borderColor: `color-mix(in srgb, ${c.color} 32%, transparent)` }}
+            style={{
+              borderColor: `color-mix(in srgb, ${c.color} 32%, transparent)`,
+            }}
           >
             <motion.div
               aria-hidden
               className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full blur-3xl"
               animate={{ opacity: [0.16, 0.3, 0.16] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               style={{ background: c.color }}
             />
 
@@ -163,7 +208,10 @@ const Slide: SlideComponent = ({ step }) => {
                 <span className="text-eyebrow" style={{ color: c.color }}>
                   {c.name}
                 </span>
-                <span className="text-h1 font-bold leading-[1.05]" style={{ color: c.color }}>
+                <span
+                  className="text-h1 font-bold leading-[1.05]"
+                  style={{ color: c.color }}
+                >
                   {c.identity}
                 </span>
               </div>
@@ -174,13 +222,23 @@ const Slide: SlideComponent = ({ step }) => {
               {c.rows.map((r, ri) => {
                 const isStatus = r.k === "현황";
                 return (
-                  <Reveal key={r.k} delay={0.45 + ci * 0.08 + ri * 0.12} duration={0.6}>
+                  <Reveal
+                    key={r.k}
+                    delay={0.45 + ci * 0.08 + ri * 0.12}
+                    duration={0.6}
+                  >
                     <div className="flex gap-4">
-                      <span className="mt-1 w-12 shrink-0 text-caption font-semibold" style={{ color: c.color }}>
+                      <span
+                        className="mt-1 w-12 shrink-0 text-caption font-semibold"
+                        style={{ color: c.color }}
+                      >
                         {r.k}
                       </span>
                       <div className="min-w-0">
-                        <div className="text-h3 font-semibold leading-snug text-fg" style={{ wordBreak: "keep-all" }}>
+                        <div
+                          className="text-h3 font-semibold leading-snug text-fg"
+                          style={{ wordBreak: "keep-all" }}
+                        >
                           {isStatus ? (
                             <Shake when={step >= 1} intensity={2}>
                               {r.v}
@@ -190,7 +248,10 @@ const Slide: SlideComponent = ({ step }) => {
                           )}
                         </div>
                         {r.sub && (
-                          <div className="mt-1 text-caption text-fg-dim leading-snug" style={{ wordBreak: "keep-all" }}>
+                          <div
+                            className="mt-1 text-caption text-fg-dim leading-snug"
+                            style={{ wordBreak: "keep-all" }}
+                          >
                             {r.sub}
                           </div>
                         )}
@@ -215,10 +276,13 @@ const Slide: SlideComponent = ({ step }) => {
                   background: `color-mix(in srgb, ${c.color} 8%, transparent)`,
                 }}
               >
-                <div className="text-micro font-semibold" style={{ color: c.color }}>
+                <div
+                  className="text-micro font-semibold"
+                  style={{ color: c.color }}
+                >
                   생태계 기능
                 </div>
-                <div className="mt-1 whitespace-nowrap text-[1.05rem] font-medium text-fg-muted">
+                <div className="mt-1 whitespace-nowrap text-[1.5rem] font-medium text-fg-muted">
                   {c.cap}
                 </div>
               </div>
