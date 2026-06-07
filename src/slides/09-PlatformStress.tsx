@@ -31,8 +31,8 @@ const scenarios: Scenario[] = [
     name: "Systemic Run",
     trigger: "스테이블코인 디페깅 · 뱅크런",
     metrics: ["LCR", "유동비율", "유동부채"],
-    meta: "유통 채널 → 상환부채·LCR 부담 제한적",
-    x: "예치·자체코인 운영 → 유동성 리스크 ↑",
+    meta: "USDC 발행·수탁자가 아닌 유통 채널 → 디페깅 시 직접 상환부채·LCR 부담은 제한적",
+    x: "예치·송금·자체 스테이블코인 직접 운영 → 예치부채·유동성 리스크 심화 가능성",
   },
   {
     n: "S3",
@@ -40,10 +40,13 @@ const scenarios: Scenario[] = [
     name: "Network Congestion",
     trigger: "ETH 가스비 급등",
     metrics: ["지급수수료", "EBITDA", "영업이익률"],
-    meta: "인프라 위탁 → 온체인 비용 외부화",
-    x: "직접 운영 → 운영비·지급수수료·마진 압박",
+    meta: "Circle·Stripe·Bridge에 인프라 위탁 → 온체인 비용 충격을 일부 외부화",
+    x: "금융 인프라를 직접 보유·운영 → 확장될수록 운영비·지급수수료·마진 압박",
   },
 ];
+
+const compareRows = scenarios.filter((s) => s.n !== "S1"); // Meta vs X = S2·S3
+const COLS = "grid grid-cols-[12rem_1fr_1fr] gap-5";
 
 const Slide: SlideComponent = () => {
   return (
@@ -52,9 +55,11 @@ const Slide: SlideComponent = () => {
       title="Black Swan Stress Test — Meta vs X"
       accent="accent"
     >
-      {/* TOP — scenario & accounting-metric definitions */}
+      {/* TOP — scenario & accounting-metric definitions (S1·S2·S3) */}
       <Reveal>
-        <div className="mb-2 text-eyebrow text-fg-dim">위기 시나리오 · 흔들리는 회계지표</div>
+        <div className="mb-2 text-eyebrow text-fg-dim">
+          위기 시나리오 · 흔들리는 회계지표
+        </div>
       </Reveal>
       <div className="grid grid-cols-3 gap-4">
         {scenarios.map((s, i) => (
@@ -62,11 +67,14 @@ const Slide: SlideComponent = () => {
             key={s.n}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + i * 0.12, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-2xl border border-border bg-surface-1 px-5 py-4"
+            transition={{ delay: 0.12 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-2xl border border-border bg-surface-1 px-5 py-3.5"
           >
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: "var(--tint-accent)", color: "var(--color-accent)" }}>
+              <div
+                className="flex h-8 w-8 items-center justify-center rounded-lg"
+                style={{ background: "var(--tint-accent)", color: "var(--color-accent)" }}
+              >
                 <s.Icon size={17} strokeWidth={1.9} />
               </div>
               <div className="flex flex-col">
@@ -74,9 +82,12 @@ const Slide: SlideComponent = () => {
                 <span className="mt-0.5 text-micro text-fg-dim">{s.trigger}</span>
               </div>
             </div>
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
               {s.metrics.map((m) => (
-                <span key={m} className="rounded-md border border-border bg-bg-soft px-2 py-0.5 font-mono text-micro text-fg-muted">
+                <span
+                  key={m}
+                  className="rounded-md border border-border bg-bg-soft px-2 py-0.5 font-mono text-micro text-fg-muted"
+                >
                   {m}
                 </span>
               ))}
@@ -86,47 +97,71 @@ const Slide: SlideComponent = () => {
       </div>
 
       {/* divider */}
-      <Reveal delay={0.5}>
+      <Reveal delay={0.45}>
         <div className="my-4 flex items-center justify-center gap-2 text-caption font-semibold text-fg-dim">
-          <motion.span animate={{ y: [0, 4, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
+          <motion.span
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          >
             <ArrowDown size={20} className="text-accent" strokeWidth={2.2} />
           </motion.span>
           시나리오별 기업 재무 영향
+          <span className="font-mono text-micro text-fg-faint">(Scenario 2 · 3)</span>
         </div>
       </Reveal>
 
-      {/* BOTTOM — per-company analysis, scenario by scenario */}
+      {/* BOTTOM — Meta vs X, scenario 2·3 (enlarged) */}
       <div className="flex flex-1 flex-col">
         {/* header */}
-        <div className="grid grid-cols-[8.5rem_1fr_1fr] items-center gap-4 pb-2">
-          <span />
-          <div className="flex items-center gap-2">
-            <MetaLogo size={28} />
-            <span className="text-h3 font-bold">Meta</span>
-            <span className="text-micro text-fg-dim">유통 채널 구조</span>
+        <Reveal delay={0.55}>
+          <div className={`${COLS} items-center pb-1`}>
+            <span />
+            <div className="flex items-center gap-3">
+              <MetaLogo size={34} />
+              <span className="text-h3 font-bold">Meta</span>
+              <span className="text-micro text-fg-dim">유통 채널 구조</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <XLogo size={34} />
+              <span className="text-h3 font-bold">X</span>
+              <span className="text-micro text-accent">직접 운영 구조</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <XLogo size={28} />
-            <span className="text-h3 font-bold">X</span>
-            <span className="text-micro text-accent">직접 운영 구조</span>
-          </div>
-        </div>
+        </Reveal>
 
-        {scenarios.map((s, i) => (
-          <Reveal key={s.n} delay={0.6 + i * 0.12}>
-            <div className="grid grid-cols-[8.5rem_1fr_1fr] items-stretch gap-4 border-t border-border py-3">
+        {compareRows.map((s, i) => (
+          <Reveal key={s.n} delay={0.65 + i * 0.14} className="flex-1">
+            <div className={`${COLS} h-full items-stretch border-t border-border py-4`}>
+              {/* scenario label */}
               <div className="flex flex-col justify-center">
-                <span className="font-mono text-caption font-bold text-fg-faint">{s.n}</span>
-                <span className="text-caption font-bold text-fg leading-tight" style={{ wordBreak: "keep-all" }}>
+                <span className="font-mono text-h3 font-bold text-fg-faint">{s.n}</span>
+                <span
+                  className="mt-1 text-h3 font-bold leading-tight text-fg"
+                  style={{ wordBreak: "keep-all" }}
+                >
                   {s.name}
                 </span>
+                <span className="mt-1 text-caption text-fg-dim" style={{ wordBreak: "keep-all" }}>
+                  {s.trigger}
+                </span>
               </div>
-              <div className="flex items-center rounded-xl border border-border bg-surface-1 px-4 py-2.5 text-caption leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
+
+              {/* Meta */}
+              <div
+                className="flex items-center rounded-2xl border border-border bg-surface-1 px-6 text-lead leading-snug text-fg-muted"
+                style={{ wordBreak: "keep-all" }}
+              >
                 {s.meta}
               </div>
+
+              {/* X — emphasized */}
               <div
-                className="flex items-center rounded-xl border px-4 py-2.5 text-caption leading-snug text-fg"
-                style={{ wordBreak: "keep-all", borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)", background: "color-mix(in srgb, var(--color-accent) 5%, transparent)" }}
+                className="flex items-center rounded-2xl border-2 px-6 text-lead font-medium leading-snug text-fg"
+                style={{
+                  wordBreak: "keep-all",
+                  borderColor: "color-mix(in srgb, var(--color-accent) 40%, transparent)",
+                  background: "color-mix(in srgb, var(--color-accent) 5%, transparent)",
+                }}
               >
                 {s.x}
               </div>
