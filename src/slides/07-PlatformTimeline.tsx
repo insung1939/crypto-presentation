@@ -105,21 +105,21 @@ function Lane({
                     />
                   )}
                 </div>
-                <div className="mt-2 font-mono text-micro font-semibold text-fg-dim">{n.year}</div>
+                <div className="mt-2 font-mono text-caption font-semibold text-fg-dim">{n.year}</div>
                 <div
-                  className="text-[0.95rem] font-bold leading-tight text-fg"
+                  className="text-[1.15rem] font-bold leading-tight text-fg"
                   style={{ wordBreak: "keep-all", color: n.tone === "fail" ? "var(--color-warn)" : undefined }}
                 >
                   {n.label}
                 </div>
                 {n.note && (
-                  <div className="mt-0.5 text-[0.8rem] leading-tight text-fg-dim" style={{ wordBreak: "keep-all" }}>
+                  <div className="mt-1 text-[0.95rem] leading-snug text-fg-dim" style={{ wordBreak: "keep-all" }}>
                     {n.note}
                   </div>
                 )}
                 {n.logo && (
-                  <span className="mt-1.5 inline-flex items-center rounded-md bg-white px-1.5 py-1 shadow-sm ring-1 ring-black/5">
-                    <img src={n.logo} alt="" className="h-3.5 w-auto object-contain" />
+                  <span className="mt-2 inline-flex items-center rounded-md bg-white px-2 py-1.5 shadow-sm ring-1 ring-black/5">
+                    <img src={n.logo} alt="" className="h-4 w-auto object-contain" />
                   </span>
                 )}
               </motion.div>
