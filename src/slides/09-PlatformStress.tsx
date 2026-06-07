@@ -48,6 +48,19 @@ const scenarios: Scenario[] = [
 const compareRows = scenarios.filter((s) => s.n !== "S1"); // Meta vs X = S2·S3
 const COLS = "grid grid-cols-[12rem_1fr_1fr] gap-5";
 
+/** Line-break a cell at the first "→" (arrow leads the consequence on line 2). */
+function arrowBreak(text: string) {
+  const idx = text.indexOf("→");
+  if (idx === -1) return text;
+  return (
+    <>
+      {text.slice(0, idx).trim()}
+      <br />
+      <span className="text-accent">→</span> {text.slice(idx + 1).trim()}
+    </>
+  );
+}
+
 const Slide: SlideComponent = () => {
   return (
     <SlideShell
@@ -151,7 +164,7 @@ const Slide: SlideComponent = () => {
                 className="flex items-center rounded-2xl border border-border bg-surface-1 px-6 text-lead leading-snug text-fg-muted"
                 style={{ wordBreak: "keep-all" }}
               >
-                {s.meta}
+                {arrowBreak(s.meta)}
               </div>
 
               {/* X — emphasized */}
@@ -163,7 +176,7 @@ const Slide: SlideComponent = () => {
                   background: "color-mix(in srgb, var(--color-accent) 5%, transparent)",
                 }}
               >
-                {s.x}
+                {arrowBreak(s.x)}
               </div>
             </div>
           </Reveal>

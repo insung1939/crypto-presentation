@@ -103,7 +103,7 @@ const Slide: SlideComponent = ({ step }) => {
               >
                 <p.Icon size={22} strokeWidth={1.8} />
               </div>
-              <span className="text-eyebrow text-accent">{p.tag}</span>
+              <span className="text-h3 font-bold text-accent">{p.tag}</span>
             </div>
             <div className="mt-4 text-h3 font-bold leading-snug text-fg" style={{ wordBreak: "keep-all" }}>
               {p.title}
