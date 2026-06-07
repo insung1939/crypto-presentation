@@ -52,13 +52,23 @@ const Slide: SlideComponent = () => (
       </Reveal>
 
       <Reveal delay={0.9}>
-        <div className="mt-10 flex flex-col items-center gap-2">
-          <div className="rounded-full border border-accent/40 bg-accent/[0.08] px-6 py-2 text-h3 font-bold text-accent">
+        <div className="mt-12 flex flex-col items-center gap-5">
+          <div className="rounded-full border border-accent/40 bg-accent/[0.08] px-7 py-2.5 text-h2 font-bold text-accent">
             9조
           </div>
           {members.length > 0 && (
-            <div className="mt-1 text-caption text-fg-muted">
-              {members.join("  ·  ")}
+            <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+              {members.map((name, i) => (
+                <motion.span
+                  key={name}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-h2 font-bold text-fg"
+                >
+                  {name}
+                </motion.span>
+              ))}
             </div>
           )}
         </div>

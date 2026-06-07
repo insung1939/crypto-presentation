@@ -31,6 +31,7 @@ const Slide: SlideComponent = ({ step }) => {
       }
       accent="accent"
     >
+      <div className="flex flex-1 flex-col justify-center gap-6">
       {/* enablers Big Tech already owns (light) */}
       <Reveal>
         <div className="flex flex-wrap items-center justify-center gap-3">
@@ -48,7 +49,7 @@ const Slide: SlideComponent = ({ step }) => {
 
       {/* connector */}
       <Reveal delay={0.3}>
-        <div className="mt-4 flex justify-center">
+        <div className="flex justify-center">
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
@@ -59,7 +60,7 @@ const Slide: SlideComponent = ({ step }) => {
       </Reveal>
 
       {/* 4 capabilities (reveal on step ≥ 1) */}
-      <div className="mt-4 grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {capabilities.map((c, i) => (
           <Reveal key={c.en} when={step >= 1} delay={i * 0.1} y={18}>
             <div
@@ -92,7 +93,7 @@ const Slide: SlideComponent = ({ step }) => {
       </div>
 
       {/* conclusion (reveal on step ≥ 2) */}
-      <Reveal when={step >= 2} delay={0.1} className="mt-auto pt-6">
+      <Reveal when={step >= 2} delay={0.1}>
         <div
           className="rounded-2xl border-2 px-7 py-5"
           style={{
@@ -111,6 +112,7 @@ const Slide: SlideComponent = ({ step }) => {
           </p>
         </div>
       </Reveal>
+      </div>
     </SlideShell>
   );
 };
