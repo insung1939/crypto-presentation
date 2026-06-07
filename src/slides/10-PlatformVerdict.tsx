@@ -108,7 +108,7 @@ const Slide: SlideComponent = ({ step }) => {
             <div className="mt-4 text-h3 font-bold leading-snug text-fg" style={{ wordBreak: "keep-all" }}>
               {p.title}
             </div>
-            <div className="mt-2 text-caption text-fg-muted leading-snug" style={{ wordBreak: "keep-all" }}>
+            <div className="mt-3 text-body text-fg-muted leading-snug" style={{ wordBreak: "keep-all" }}>
               {p.body}
             </div>
           </motion.div>

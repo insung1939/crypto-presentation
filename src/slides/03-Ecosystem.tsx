@@ -209,18 +209,18 @@ const Slide: SlideComponent = ({ step }) => {
             {/* ecosystem-function caption */}
             <Reveal delay={0.95 + ci * 0.08} className="mt-auto pt-5">
               <div
-                className="relative rounded-2xl border px-5 py-4 text-caption font-medium leading-snug"
+                className="relative rounded-2xl border px-5 py-3.5"
                 style={{
                   borderColor: `color-mix(in srgb, ${c.color} 28%, transparent)`,
                   background: `color-mix(in srgb, ${c.color} 8%, transparent)`,
-                  color: "var(--color-fg-muted)",
-                  wordBreak: "keep-all",
                 }}
               >
-                <span className="mr-2 font-semibold" style={{ color: c.color }}>
+                <div className="text-micro font-semibold" style={{ color: c.color }}>
                   생태계 기능
-                </span>
-                {c.cap}
+                </div>
+                <div className="mt-1 whitespace-nowrap text-[1.05rem] font-medium text-fg-muted">
+                  {c.cap}
+                </div>
               </div>
             </Reveal>
           </motion.div>

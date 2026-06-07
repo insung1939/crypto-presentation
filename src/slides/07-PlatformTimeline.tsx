@@ -107,13 +107,13 @@ function Lane({
                 </div>
                 <div className="mt-2 font-mono text-micro font-semibold text-fg-dim">{n.year}</div>
                 <div
-                  className="text-caption font-bold leading-tight text-fg"
+                  className="text-[0.95rem] font-bold leading-tight text-fg"
                   style={{ wordBreak: "keep-all", color: n.tone === "fail" ? "var(--color-warn)" : undefined }}
                 >
                   {n.label}
                 </div>
                 {n.note && (
-                  <div className="mt-0.5 text-[0.72rem] leading-tight text-fg-faint" style={{ wordBreak: "keep-all" }}>
+                  <div className="mt-0.5 text-[0.8rem] leading-tight text-fg-dim" style={{ wordBreak: "keep-all" }}>
                     {n.note}
                   </div>
                 )}
@@ -161,7 +161,7 @@ const Slide: SlideComponent = () => {
           >
             <span className="text-eyebrow text-accent">X</span>
             <p className="mt-1 text-h3 font-semibold text-fg" style={{ wordBreak: "keep-all" }}>
-              인수 직후부터 <span className="text-accent">직접 금융 인프라</span>를 쌓아 슈퍼앱으로 확장
+<span className="text-accent">직접 금융 인프라</span>를 쌓아 슈퍼앱으로 확장
             </p>
           </div>
         </div>

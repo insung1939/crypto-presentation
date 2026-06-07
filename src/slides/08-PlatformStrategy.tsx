@@ -20,7 +20,7 @@ const rows: Row[] = [
   },
   {
     label: "강점",
-    meta: "30억+ 이용자(FB·IG·WhatsApp) → 압도적 광고 수익화 연결성",
+    meta: "30억+ 이용자(Facebook·Instagram·WhatsApp) → 광고 수익화 연결성",
     x: "직접 금융 인프라 구축력 → 슈퍼앱 확장성 (결제→크립토→투자→대출→송금)",
   },
   {

@@ -176,8 +176,8 @@ const Slide: SlideComponent = ({ step }) => {
           Logo={BitcoinLogo}
           asset="BTC"
           points={[
-            { lead: "거래의 기준통화", body: "— BTC 거래는 USDT·USDC를 기준으로 값을 매긴다" },
-            { lead: "담보 → 유동화", body: "— BTC를 담보로 스테이블코인을 빌려 가치를 현금화" },
+            { lead: "기준통화", body: "— USDT·USDC는 BTC 거래의 기준" },
+            { lead: "유동화 기초자산", body: "— BTC 담보 등을 통해 가치를 현금화" },
           ]}
         />
         <LinkCard
@@ -186,8 +186,8 @@ const Slide: SlideComponent = ({ step }) => {
           Logo={EthereumLogo}
           asset="ETH"
           points={[
-            { lead: "발행 · 유통의 토대", body: "— USDT·USDC가 이더리움 네트워크 위에서 돌아간다" },
-            { lead: "DeFi의 핵심 수단", body: "— 결제 · 담보 · 유동성 공급의 기본 화폐" },
+            { lead: "발행·유통 인프라", body: "— USDT·USDC는 ETH network상에서 구현" },
+            { lead: "DeFi 핵심수단", body: "— 결제 · 담보 · 유동성 공급의 기본 화폐" },
           ]}
         />
       </div>
@@ -215,11 +215,11 @@ const Slide: SlideComponent = ({ step }) => {
             className="relative mt-2 text-h2 font-semibold leading-snug text-fg text-pretty"
             style={{ wordBreak: "keep-all" }}
           >
-            Crypto가 대중에게 쓰이려면, 스테이블코인이{" "}
+            Crypto 생태계의 실용화를 위해서는,{" "}
             <Highlight when={step >= 1} color="var(--color-accent)" delay={0.2}>
-              플랫폼 · 기기 · 앱 생태계
+              플랫폼 · 기기 · APP 생태계
             </Highlight>
-            에 들어와야 한다.
+            에 편입이 필요하다.
           </p>
         </div>
       </Reveal>

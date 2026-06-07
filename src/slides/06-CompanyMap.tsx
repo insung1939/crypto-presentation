@@ -5,47 +5,37 @@ import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
 import { MetaLogo, XLogo, SamsungLogo, AppleLogo } from "@/visuals/Logos";
 
+type Proj = { t: string; logo?: string };
 type Co = {
   name: string;
   Logo: (p: { size?: number }) => JSX.Element;
-  cap: string;
   color: string;
-  dark?: boolean;
-  projects: string[];
+  projects: Proj[];
 };
-
-type Group = {
-  label: string;
-  axis: string;
-  members: Co[];
-};
+type Group = { label: string; axis: string; tint: string; members: Co[] };
 
 const groups: Group[] = [
   {
     label: "플랫폼 / 광고 기업",
     axis: "Distribution · Monetization",
+    tint: "var(--color-eth)",
     members: [
       {
         name: "Meta",
         Logo: MetaLogo,
-        cap: "Distribution",
         color: "#0866FF",
         projects: [
-          "USDC 크리에이터 정산 파일럿",
-          "소셜커머스 결제 레이어",
-          "SNS 인앱결제 데이터 → 광고 ARPU 개선",
+          { t: "USDC 크리에이터 정산 파일럿", logo: "/brand/usdc.svg" },
+          { t: "소셜커머스 결제 레이어" },
         ],
       },
       {
         name: "X",
         Logo: XLogo,
-        cap: "Monetization",
         color: "#111827",
-        dark: true,
         projects: [
-          "X Money — P2P 송금·예치 결제 인프라",
-          "Smart Cashtags · XChat 결제",
-          "투자 데이터 × 크립토 결제 통합",
+          { t: "X Money — P2P 송금·예치 결제 인프라" },
+          { t: "Smart Cashtags · XChat 결제" },
         ],
       },
     ],
@@ -53,28 +43,24 @@ const groups: Group[] = [
   {
     label: "디바이스 / OS 기업",
     axis: "Trust · Interface",
+    tint: "var(--color-btc)",
     members: [
       {
         name: "Samsung",
         Logo: SamsungLogo,
-        cap: "Interface",
         color: "#1428A0",
         projects: [
-          "Blockchain Keystore · Blockchain Wallet",
-          "Knox 기반 개인키 보안 인프라",
-          "비수탁 지갑 ↔ DApp 모바일 접점",
+          { t: "Blockchain Keystore · Wallet" },
+          { t: "Knox 기반 개인키 보안 인프라" },
         ],
       },
       {
         name: "Apple",
         Logo: AppleLogo,
-        cap: "Trust",
         color: "#1d1d1f",
-        dark: true,
         projects: [
-          "Apple Wallet / Apple Pay",
-          "NFC · Secure Element API",
-          "결제 UX·정산 경로 통제 → 마찰 완화",
+          { t: "Apple Wallet / Apple Pay", logo: "/brand/applepay.svg" },
+          { t: "NFC · Secure Element API" },
         ],
       },
     ],
@@ -91,17 +77,26 @@ const Slide: SlideComponent = () => {
       <div className="grid flex-1 grid-cols-2 gap-7">
         {groups.map((g, gi) => (
           <Reveal key={g.label} delay={0.15 + gi * 0.15} duration={0.7}>
-            <div className="flex h-full flex-col rounded-3xl border border-border bg-surface-1 p-6">
+            <div
+              className="flex h-full flex-col rounded-3xl border p-6"
+              style={{
+                borderColor: `color-mix(in srgb, ${g.tint} 28%, transparent)`,
+                background: `color-mix(in srgb, ${g.tint} 5%, transparent)`,
+              }}
+            >
               {/* group header */}
-              <div className="flex items-baseline justify-between border-b border-border pb-3">
+              <div className="flex items-baseline justify-between pb-3">
                 <span className="text-h3 font-bold text-fg">{g.label}</span>
-                <span className="rounded-full bg-surface-2 px-3 py-1 font-mono text-micro font-semibold text-fg-dim">
+                <span
+                  className="rounded-full px-3 py-1 font-mono text-micro font-bold"
+                  style={{ background: `color-mix(in srgb, ${g.tint} 16%, transparent)`, color: g.tint }}
+                >
                   {g.axis}
                 </span>
               </div>
 
               {/* members stacked */}
-              <div className="mt-4 flex flex-1 flex-col gap-4">
+              <div className="mt-1 flex flex-1 flex-col gap-4">
                 {g.members.map((m, mi) => (
                   <motion.div
                     key={m.name}
@@ -112,32 +107,24 @@ const Slide: SlideComponent = () => {
                       duration: 0.55,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="flex flex-1 flex-col rounded-2xl border bg-bg-soft p-5 shadow-card"
-                    style={{ borderColor: `color-mix(in srgb, ${m.color} 26%, transparent)` }}
+                    className="flex flex-1 flex-col rounded-2xl border border-border bg-bg-soft p-5 shadow-card"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 border-b border-border pb-3">
                       <m.Logo size={40} />
                       <span className="text-h3 font-bold leading-none text-fg">{m.name}</span>
-                      <span
-                        className="ml-auto rounded-full px-3 py-1 text-micro font-bold"
-                        style={{
-                          background: `color-mix(in srgb, ${m.dark ? "#6b7280" : m.color} 14%, transparent)`,
-                          color: m.dark ? "var(--color-fg-muted)" : m.color,
-                        }}
-                      >
-                        {m.cap}
-                      </span>
                     </div>
 
-                    <div className="mt-3 grid grid-cols-1 gap-1.5">
+                    <div className="mt-3 flex flex-1 flex-col justify-center gap-2.5">
                       {m.projects.map((p) => (
-                        <div
-                          key={p}
-                          className="flex gap-2 text-caption text-fg-muted leading-snug"
-                          style={{ wordBreak: "keep-all" }}
-                        >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: m.color }} />
-                          {p}
+                        <div key={p.t} className="flex items-center gap-3" style={{ wordBreak: "keep-all" }}>
+                          {p.logo ? (
+                            <span className="flex h-7 w-9 shrink-0 items-center justify-center rounded-md bg-white ring-1 ring-black/5">
+                              <img src={p.logo} alt="" className="h-3.5 w-auto object-contain" />
+                            </span>
+                          ) : (
+                            <span className="ml-1 mr-2 h-2 w-2 shrink-0 rounded-full" style={{ background: m.color }} />
+                          )}
+                          <span className="text-body font-semibold leading-snug text-fg">{p.t}</span>
                         </div>
                       ))}
                     </div>

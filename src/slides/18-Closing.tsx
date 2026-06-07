@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/motion/Reveal";
 import { SlideComponent } from "@/deck/types";
 
+// 팀원 이름 — 받는 대로 채우면 마지막 줄에 자동 표시됨
+const members: string[] = [];
+
 const Slide: SlideComponent = () => (
   <div className="relative grain-bg flex h-full w-full flex-col items-center justify-center overflow-hidden bg-bg px-[7vw]">
     <motion.div
@@ -18,7 +21,7 @@ const Slide: SlideComponent = () => (
 
     <div className="relative z-10 flex flex-col items-center text-center">
       <Reveal>
-        <div className="text-eyebrow text-fg-dim">9조 · 재무회계</div>
+        <div className="text-eyebrow text-fg-dim">KAIST DFMBA · 재무회계</div>
       </Reveal>
 
       <Reveal delay={0.25} duration={0.9}>
@@ -42,8 +45,15 @@ const Slide: SlideComponent = () => (
       </Reveal>
 
       <Reveal delay={0.9}>
-        <div className="mt-10 text-caption text-fg-muted">
-          KAIST DFMBA · 재무회계
+        <div className="mt-10 flex flex-col items-center gap-2">
+          <div className="rounded-full border border-accent/40 bg-accent/[0.08] px-6 py-2 text-h3 font-bold text-accent">
+            9조
+          </div>
+          {members.length > 0 && (
+            <div className="mt-1 text-caption text-fg-muted">
+              {members.join("  ·  ")}
+            </div>
+          )}
         </div>
       </Reveal>
     </div>

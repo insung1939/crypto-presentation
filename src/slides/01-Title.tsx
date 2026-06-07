@@ -114,7 +114,7 @@ const Slide: SlideComponent = ({ step }) => {
 
         <Reveal delay={0.8}>
           <p className="mt-9 text-lead text-fg-dim text-pretty">
-            세 자산의 연결고리부터 — 우리들의 최종 투자처까지
+            Crypto 생태계 성숙에 따른 선도기업 선정
           </p>
         </Reveal>
       </div>

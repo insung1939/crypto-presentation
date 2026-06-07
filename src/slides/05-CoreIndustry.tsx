@@ -88,17 +88,28 @@ const Slide: SlideComponent = ({ step }) => {
 
       {/* transition */}
       <Reveal delay={0.7}>
-        <p className="mt-6 text-center text-h3 font-semibold text-fg" style={{ wordBreak: "keep-all" }}>
-          이 역할을 할 수 있는 주체가 <span className="text-accent">Big Tech</span>다 — 네 가지 역량 때문이다.
+        <p className="mt-5 text-center text-h3 font-semibold text-fg" style={{ wordBreak: "keep-all" }}>
+          이 역할을 할 수 있는 주체가 <span className="text-accent">Big Tech</span>다.
         </p>
       </Reveal>
 
+      {/* enablers Big Tech already owns (light) */}
+      <Reveal delay={0.85}>
+        <div className="mt-3 flex items-center justify-center gap-3 text-caption text-fg-dim">
+          {["대규모 사용자 데이터", "디바이스 · OS", "결제 · 인증 인프라"].map((e) => (
+            <span key={e} className="rounded-full border border-border bg-surface-1 px-3.5 py-1">
+              {e}
+            </span>
+          ))}
+        </div>
+      </Reveal>
+
       {/* Step 2 — capabilities (reveal on step ≥ 1) */}
-      <div className="mt-5 grid grid-cols-4 gap-4">
+      <div className="mt-4 grid grid-cols-4 gap-4">
         {capabilities.map((c, i) => (
           <Reveal key={c.en} when={step >= 1} delay={i * 0.1} y={18}>
             <div
-              className="relative flex h-full flex-col items-center overflow-hidden rounded-2xl border bg-surface-1 p-5 text-center"
+              className="relative flex h-full flex-col items-center overflow-hidden rounded-2xl border bg-surface-1 p-4 text-center"
               style={{ borderColor: `color-mix(in srgb, ${c.color} 30%, transparent)` }}
             >
               <div
