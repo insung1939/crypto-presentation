@@ -33,35 +33,35 @@ function Stack({
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="flex w-[150px] flex-col rounded-2xl border bg-bg-soft p-4 shadow-card"
+      className="flex w-[180px] flex-col rounded-2xl border bg-bg-soft p-5 shadow-card"
       style={{ borderColor: `color-mix(in srgb, ${color} 30%, transparent)` }}
     >
       <div className="flex items-center gap-2">
-        <Logo size={26} />
-        <span className="text-micro font-bold text-fg-dim">{focus}</span>
+        <Logo size={30} />
+        <span className="text-caption font-bold text-fg-dim">{focus}</span>
       </div>
-      <div className="mt-3 flex flex-col gap-2">
+      <div className="mt-4 flex flex-col gap-2.5">
         {items.map((it, i) => (
           <motion.div
             key={it.label}
             initial={{ opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: delay + 0.25 + i * 0.1, duration: 0.4 }}
-            className="flex items-center gap-2 rounded-lg bg-white px-2.5 py-2 ring-1 ring-black/5"
+            className="flex items-center gap-2 rounded-lg bg-white px-3 py-2.5 ring-1 ring-black/5"
           >
             {it.img ? (
-              <img src={it.img} alt="" className="h-4 w-auto object-contain" />
+              <img src={it.img} alt="" className="h-5 w-auto object-contain" />
             ) : it.Icon ? (
-              <it.Icon size={16} style={{ color }} strokeWidth={1.9} />
+              <it.Icon size={18} style={{ color }} strokeWidth={1.9} />
             ) : null}
-            <span className="text-[0.78rem] font-semibold text-fg" style={{ wordBreak: "keep-all" }}>
+            <span className="text-caption font-semibold text-fg" style={{ wordBreak: "keep-all" }}>
               {it.label}
             </span>
           </motion.div>
         ))}
       </div>
       <div
-        className="mt-3 rounded-lg py-1.5 text-center text-micro font-bold"
+        className="mt-4 rounded-lg py-2 text-center text-caption font-bold"
         style={{ background: `color-mix(in srgb, ${color} 14%, transparent)`, color }}
       >
         {tag}
@@ -91,31 +91,31 @@ const Slide: SlideComponent = ({ step }) => {
         {/* comparison table */}
         <div className="flex flex-col">
           <Reveal>
-            <div className="grid grid-cols-[7rem_1fr_1fr] items-center gap-3 pb-2">
+            <div className="grid grid-cols-[8rem_1fr_1fr] items-center gap-3 pb-2">
               <span />
               <div className="flex items-center gap-2">
-                <SamsungLogo size={28} />
+                <SamsungLogo size={32} />
                 <span className="text-h3 font-bold">Samsung</span>
               </div>
               <div className="flex items-center gap-2">
-                <AppleLogo size={28} />
+                <AppleLogo size={32} />
                 <span className="text-h3 font-bold">Apple</span>
               </div>
             </div>
           </Reveal>
 
           {rows.map((r, i) => (
-            <Reveal key={r.label} delay={0.15 + i * 0.1}>
-              <div className="grid grid-cols-[7rem_1fr_1fr] items-stretch gap-3 border-t border-border py-3">
+            <Reveal key={r.label} delay={0.15 + i * 0.1} className="flex-1">
+              <div className="grid h-full grid-cols-[8rem_1fr_1fr] items-stretch gap-3 border-t border-border py-3">
                 <div className="flex flex-col justify-center">
-                  <span className="text-caption font-bold text-fg">{r.label}</span>
-                  <span className="mt-0.5 font-mono text-[0.7rem] text-fg-faint">{r.contrast}</span>
+                  <span className="text-body font-bold text-fg">{r.label}</span>
+                  <span className="mt-1 font-mono text-caption text-fg-faint">{r.contrast}</span>
                 </div>
-                <div className="rounded-xl border border-border bg-surface-1 px-3.5 py-2.5 text-caption leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
+                <div className="flex items-center rounded-xl border border-border bg-surface-1 px-4 py-3 text-body leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
                   {r.samsung}
                 </div>
                 <motion.div
-                  className="relative rounded-xl border px-3.5 py-2.5 text-caption leading-snug text-fg"
+                  className="relative flex items-center rounded-xl border px-4 py-3 text-body leading-snug text-fg"
                   style={{ wordBreak: "keep-all" }}
                   animate={{
                     borderColor: won ? "color-mix(in srgb, var(--color-accent) 45%, transparent)" : "var(--color-border)",
@@ -168,11 +168,11 @@ const Slide: SlideComponent = ({ step }) => {
 
       {/* conclusion */}
       <Reveal delay={0.7}>
-        <div className="mt-4 flex items-center gap-4 rounded-2xl border border-border bg-surface-2 px-6 py-3.5">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-stable/15 text-stable">
-            <ShieldCheck size={24} strokeWidth={1.9} />
+        <div className="mt-5 flex items-center gap-4 rounded-2xl border border-border bg-surface-2 px-6 py-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-stable/15 text-stable">
+            <ShieldCheck size={26} strokeWidth={1.9} />
           </div>
-          <p className="text-body leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
+          <p className="text-lead leading-snug text-fg-muted" style={{ wordBreak: "keep-all" }}>
             <span className="font-bold text-stable">보안은 Samsung</span>, <span className="font-bold text-accent">수익화는 Apple</span>. 보안 기술의 우위가 곧 반복 수익의 우위로 이어지지는 않는다 — 두 우위는 별개다.
           </p>
         </div>
